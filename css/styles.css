@@ -71,7 +71,36 @@ i {
     text-decoration: underline;
 }
 
-@keyframes animate { 
+@-webkit-keyframes animate { 
+    0% { 
+        -webkit-flex: 0 0 0px;
+    } 
+  
+    50% { 
+        -webkit-flex: 0 0 125px;
+    } 
+  
+    100% { 
+        -webkit-flex: 0 0 250px;
+    } 
+  } 
+
+  @-webkit-keyframes deanimate { 
+    0% { 
+        -webkit-flex: 0 0 250px;
+    } 
+  
+    50% { 
+        -webkit-flex: 0 0 125px;
+    } 
+  
+    100% { 
+        -webkit-flex: 0 0 0px;
+    } 
+  }
+
+
+  @keyframes animate { 
     0% { 
         flex: 0 0 0px;
     } 
@@ -97,7 +126,8 @@ i {
     100% { 
         flex: 0 0 0px;
     } 
-  } 
+  }
+
 
   #view-container {
       display: flex;
