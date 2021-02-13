@@ -68,6 +68,7 @@ i {
     cursor: pointer;
     line-height: 1.5;
     white-space: nowrap;
+    font-size: 20px;
 }
 .documentitem:hover {
     text-decoration: underline;
@@ -119,25 +120,28 @@ i {
     display: none;
   }
   .iword {
-      font-size: 18px;
+      font-size: 24px;
       cursor: pointer;
   }
   .translation {
       font-size: 18px;
       font-style: italic;
+      margin-left: 25px;
   }
   #att-title {
       text-align: center;
   }
   .att-item {
       margin-left: 15px;
-    white-space: nowrap;
+    /* white-space: nowrap; */
+    flex-wrap: wrap;
+    font-size: 20px;
   }
   #exit-panel {
       text-align: right;
-      margin-right: 5px;
+      margin-right: 10px;
       /* margin-top: px; */
-      font-size: 24px;
+      font-size: 3rem;
   }
   #exit-panel:hover {
       cursor: pointer;
