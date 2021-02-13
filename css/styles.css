@@ -43,14 +43,16 @@ i {
 }
 #doc-panel {
     overflow: hidden;
-    flex: 0 0 0px;
+    flex: 0 0 auto;
+    width: 0px;
     height: 100%;
     background-color: lightgray;
     border-radius: 6px;
 }
 #att-panel {
         overflow: hidden;
-        flex: 0 0 0px;
+        flex: 0 0 auto;
+        width: 0px;
         height: 100%;
         background-color: lightgray;
         border-radius: 6px;
@@ -71,60 +73,32 @@ i {
     text-decoration: underline;
 }
 
-@-webkit-keyframes animate { 
-    0% { 
-        -webkit-flex: 0 0 0px;
-    } 
-  
-    50% { 
-        -webkit-flex: 0 0 125px;
-    } 
-  
-    100% { 
-        -webkit-flex: 0 0 250px;
-    } 
-  } 
-
-  @-webkit-keyframes deanimate { 
-    0% { 
-        -webkit-flex: 0 0 250px;
-    } 
-  
-    50% { 
-        -webkit-flex: 0 0 125px;
-    } 
-  
-    100% { 
-        -webkit-flex: 0 0 0px;
-    } 
-  }
-
 
   @keyframes animate { 
     0% { 
-        flex: 0 0 0px;
+        width: 0px;
     } 
   
     50% { 
-        flex: 0 0 125px;
+        width: 125px;
     } 
   
     100% { 
-        flex: 0 0 250px;
+        width: 250px;
     } 
   } 
 
   @keyframes deanimate { 
     0% { 
-        flex: 0 0 250px;
+        width: 250px;
     } 
   
     50% { 
-        flex: 0 0 125px;
+        width: 125px;
     } 
   
     100% { 
-        flex: 0 0 0px;
+        width: 0px;
     } 
   }
 

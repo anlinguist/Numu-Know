@@ -741,6 +741,7 @@ function removeAllChildNodes(parent) {
 function toogleSideBar() {
     w = document.getElementById('doc-panel').clientWidth
     if (w === 0) {
+        console.log('animating...')
         document.getElementById('doc-panel').style.animation = "animate .5s linear forwards";
         removeAllChildNodes(document.getElementById('doc-container'))
         let coyoteDance = document.createElement("div");
