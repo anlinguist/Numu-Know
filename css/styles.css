@@ -1,0 +1,162 @@
+body {
+    height: calc( 100vh - 16px );
+}
+i {
+    font-style: normal;
+    position: relative;
+    cursor: pointer;
+    /* padding: 3px; */
+    display: inline-block;
+    margin-right: 0.3em;
+}
+
+.menu-icon .icon-bar {
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    height: 3px;
+    border-radius: 3px;
+    background-color: #444;
+}
+
+.menu-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 15px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 3;
+    border-bottom-right-radius: 5px;
+}
+.menu-icon .icon-bar:nth-child(2) {
+    top: 21px;
+}
+.menu-icon .icon-bar:nth-child(3) {
+    top: 27px;
+}
+.menu-icon .icon-bar:nth-child(4) {
+    top: 33px;
+}
+#doc-panel {
+    overflow: hidden;
+    flex: 0 0 0px;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 6px;
+}
+#att-panel {
+        overflow: hidden;
+        flex: 0 0 0px;
+        height: 100%;
+        background-color: lightgray;
+        border-radius: 6px;
+}
+#doc-title {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.documentitem {
+    text-align: center;
+    cursor: pointer;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+.documentitem:hover {
+    text-decoration: underline;
+}
+
+@keyframes animate { 
+    0% { 
+        flex: 0 0 0px;
+    } 
+  
+    50% { 
+        flex: 0 0 125px;
+    } 
+  
+    100% { 
+        flex: 0 0 250px;
+    } 
+  } 
+
+  @keyframes deanimate { 
+    0% { 
+        flex: 0 0 250px;
+    } 
+  
+    50% { 
+        flex: 0 0 125px;
+    } 
+  
+    100% { 
+        flex: 0 0 0px;
+    } 
+  } 
+
+  #view-container {
+      display: flex;
+      height: 100%;
+      justify-content: space-between;
+  }
+  #main {
+      padding:50px 50px 50px 75px;
+      width: 100%;
+      overflow-y:scroll;
+      -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  #main::-webkit-scrollbar {
+    display: none;
+  }
+  .iword {
+      font-size: 18px;
+      cursor: pointer;
+  }
+  .translation {
+      font-size: 18px;
+      font-style: italic;
+  }
+  #att-title {
+      text-align: center;
+  }
+  .att-item {
+      margin-left: 15px;
+    white-space: nowrap;
+  }
+  #exit-panel {
+      text-align: right;
+      margin-right: 5px;
+      /* margin-top: px; */
+      font-size: 24px;
+  }
+  #exit-panel:hover {
+      cursor: pointer;
+      color: red;
+  }
+#add-att {
+    padding:10px;
+    border-radius: 6px;
+    border:none;
+}
+#add-att:hover {
+    cursor: pointer;
+}
+  html::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  html {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  #addattbtndiv {
+      text-align: center;
+    white-space: nowrap;
+  }
