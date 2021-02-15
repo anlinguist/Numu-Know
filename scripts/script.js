@@ -1,51 +1,73 @@
-function addAllTheAttsToContainer(wordObj) {
-    theword = wordObj["word"].replace(".", "").replace('”', "").replace(",", "").replace('“', "").replace("?", "")
-        themorphology = wordObj["morphology"]
-        thegloss = wordObj["gloss"]
-        wordp = document.createElement('p')
-        morphp = document.createElement('p')
-        glossp = document.createElement('p')
-        document.getElementById('attpanelcontainer').append(wordp)
-        document.getElementById('attpanelcontainer').append(morphp)
-        document.getElementById('attpanelcontainer').append(glossp)
-        wordp.setAttribute("class", "att-item")
-        morphp.setAttribute("class", "att-item")
-        glossp.setAttribute("class", "att-item")
-        wordp.append("Word: " + theword)
-        morphp.append("Morphology: " + themorphology)
-        glossp.append("Gloss: " + thegloss)
-        for (var key in wordObj) {
-            // check if the property/key is defined in the object itself, not in parent
-            if (key !== "word" && key !== "morphology" && key !== "gloss") {
-                console.log("extrakey found")
-                attribute = key
-                value = wordObj[key]
-                randomp = document.createElement('p')
-                document.getElementById('attpanelcontainer').append(randomp)
-                randomp.setAttribute("class", "att-item")
-                randomp.append(attribute + ": " + key)
+function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj) {  
+    attpanelcontainer = document.createElement("div")
+    document.getElementById('attpanelcontainer').replaceWith(attpanelcontainer)
+    attpanelcontainer.setAttribute("id", "attpanelcontainer")
+    dc = {}
+    for (var key in wordObj) {
+        // check if the property/key is defined in the object itself, not in parent
+            attribute = key
+            value = wordObj[key].replace(".", "").replace('”', "").replace(",", "").replace('“', "").replace("?", "")
+            randomp = document.createElement('p')
+            valueSpan = document.createElement('span')
+            document.getElementById('attpanelcontainer').append(randomp)
+            randomp.setAttribute("class", "att-item")
+            randomp.setAttribute("id", "att-" + attribute)
+            randomp.append(attribute + ": ")
+            randomp.append(valueSpan)
+            valueSpan.setAttribute("class", "wordatt-value")
+            valueSpan.append(value)
+            valueSpan.contentEditable='true'
+            dc[key] = wordObj[key] 
+    }
+
+
+
+    document.getElementById('attpanelcontainer').addEventListener('focusout', async function(event) {
+        if (event.target.matches('.wordatt-value')) {
+            attChanged = event.target.parentElement.id.replace("att-", "")
+            if (event.target.innerHTML != dc[attChanged].replace(".", "").replace('”', "").replace(",", "").replace('“', "").replace("?", "")) {
+                anobject[sentenceNum]['words'][wordNum][attChanged] = event.target.innerHTML
+                send = {
+                        'data': anobject
+                    }
+                let postInfo = {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Document': docName
+                    },
+                    body: JSON.stringify(send)
+                  }
+                  
+                  url = "http://localhost:5001/numu-know/us-central1/app/api/update/1"
+                  fetch(url, postInfo).then(populateMain(anobject, docName))
+                
+                }                
             }
-        }
+      });
+
+
 }
 
-function clickedWord(wordObj) {
+function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj) {
     removeAllChildNodes(document.getElementById('attpanelcontainer'))
     w = document.getElementById('att-panel').clientWidth
-    console.log(wordObj)
     if (w === 0) {
         //slide att-panel into view.
         document.getElementById('att-panel').style.animation = "animate .5s linear forwards";
         //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-        addAllTheAttsToContainer(wordObj)
+        addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
     }
     else {
         //don't expand, just fade in new word
-        addAllTheAttsToContainer(wordObj)
+        addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
     }
 }
 
 function populateMain(anobject, docName) {
-    removeAllChildNodes(document.getElementById('main'))
+    maindiv = document.createElement("div")
+    document.getElementById('main').replaceWith(maindiv)
+    maindiv.setAttribute("id", "main")
     i=0
     dictionary = {}
     doctitle = document.createElement("h2")
@@ -85,7 +107,10 @@ function populateMain(anobject, docName) {
             })
         }
         else if (item.block) {
-            sentence=sentence + item.block + " "
+            block = document.createElement("p")
+            document.getElementById(idname).append(block)
+            block.append(item.block)
+            block.setAttribute("class", "blockedsentence")
         }
         translation = item.translation
         let t = document.createElement("p")
@@ -95,22 +120,19 @@ function populateMain(anobject, docName) {
         t.setAttribute("class", "translation")
         document.getElementById(tidname).append(translation)
     })
-    document.addEventListener('click', function (event) {
+    document.getElementById('main').addEventListener('click', function (event) {
         if (event.target.matches('.iword')) {
-            console.log(event.target.id)
             idOfClicked = event.target.id
             sentenceNum = parseInt(idOfClicked.replace("sentence", "").replace(/word.*/, "")) - 1
             wordNum = parseInt(idOfClicked.replace(/sentence.*word/, "")) - 1
-            console.log(sentenceNum)
-            console.log(wordNum)
             wordObj = dictionary[event.target.id];
-            clickedWord(wordObj)
+            clickedWord(anobject, docName, sentenceNum, wordNum, wordObj)
         }
+    })
+    document.getElementById('doc-container').addEventListener('click', function (event) {
         if (event.target.matches('.documentitem')) {
             idofdoc = event.target.id
             idtopopulate = parseInt(idofdoc.replace("item", ""))
-            console.log(idofdoc)
-            console.log(idtopopulate)
             fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
             .then(response => response.json())
             .then(data => populateMain(data[idtopopulate]['item']['item']['data'], data[idtopopulate]['id']));
@@ -138,7 +160,6 @@ function populateSideBar(item, index) {
 function toogleSideBar() {
     w = document.getElementById('doc-panel').clientWidth
     if (w === 0) {
-        console.log('animating...')
         document.getElementById('doc-panel').style.animation = "animate .5s linear forwards";
         removeAllChildNodes(document.getElementById('doc-container'))
         fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
@@ -160,3 +181,5 @@ startUp()
 
 document.getElementById('doc-toggler').addEventListener('click', function() {toogleSideBar()}, false)
 document.getElementById('exit-panel').addEventListener('click', function() {document.getElementById('att-panel').style.animation = "deanimate .5s linear backwards";}, false)
+
+// add a loader to documents list and main document holder

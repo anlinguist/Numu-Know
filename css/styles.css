@@ -168,3 +168,6 @@ i {
       text-align: center;
     white-space: nowrap;
   }
+ .blockedsentence {
+     font-size: 24px;
+ }
