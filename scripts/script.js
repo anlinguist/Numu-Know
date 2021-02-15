@@ -64,26 +64,54 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
 function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj) {
     removeAllChildNodes(document.getElementById('attpanelcontainer'))
     w = document.getElementById('att-panel').clientWidth
-    if (w === 0) {
-        //slide att-panel into view.
-        setTimeout(function(){ 
+    h = document.getElementById('att-panel').clientHeight
+    mw = document.body.clientWidth
+    if (mw > 690) {
+        if (w === 0) {
+            //slide att-panel into view.
+            setTimeout(function(){ 
+                attitems = document.querySelectorAll('.att-item')
+                attitems.forEach(item => {
+                    item.style.whiteSpace = "normal"
+                })}, 500);
+            document.getElementById('att-panel').style.animation = "animate .5s linear forwards";
+            //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+            
+        }
+        else {
+            //don't expand, just fade in new word
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
             attitems = document.querySelectorAll('.att-item')
-            attitems.forEach(item => {
-                item.style.whiteSpace = "normal"
-            })}, 500);
-        document.getElementById('att-panel').style.animation = "animate .5s linear forwards";
-        //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-        addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
-        
+                attitems.forEach(item => {
+                    item.style.whiteSpace = "normal"
+                })
+        }
     }
     else {
-        //don't expand, just fade in new word
-        addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
-        attitems = document.querySelectorAll('.att-item')
-            attitems.forEach(item => {
-                item.style.whiteSpace = "normal"
-            })
+        if (h === 0) {
+            //slide att-panel into view.
+            setTimeout(function(){ 
+                attitems = document.querySelectorAll('.att-item')
+                attitems.forEach(item => {
+                    item.style.whiteSpace = "normal"
+                    document.getElementById('att-panel').style.display = "block";
+                })}, 500);
+            document.getElementById('att-panel').style.animation = "showatts .5s linear forwards";
+            //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+            
+        }
+        else {
+            //don't expand, just fade in new word
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+            attitems = document.querySelectorAll('.att-item')
+                attitems.forEach(item => {
+                    item.style.whiteSpace = "normal"
+                })
+        }
     }
+
 }
 
 function populateMain(anobject, docName) {
@@ -207,6 +235,13 @@ document.getElementById('exit-panel').addEventListener('click', function() {
             attitems.forEach(item => {
                 item.style.whiteSpace = "nowrap"
             })
-    document.getElementById('att-panel').style.animation = "deanimate .5s linear backwards";}, false)
+            mw = document.body.clientWidth
+    if (mw > 690) {
+        document.getElementById('att-panel').style.animation = "deanimate .5s linear backwards";
+    }
+    else {
+        document.getElementById('att-panel').style.animation = "removeatts .5s linear backwards";
+    }
+        }, false)
 
 // add a loader to documents list and main document holder

@@ -49,14 +49,7 @@ i {
     background-color: transparent;
     border-radius: 6px;
 }
-#att-panel {
-        overflow: hidden;
-        flex: 0 0 auto;
-        width: 0px;
-        height: 100%;
-        background-color: transparent;
-        border-radius: 6px;
-}
+
 #doc-title {
     margin-top: 50px;
     margin-left: auto;
@@ -100,6 +93,33 @@ i {
   
     100% { 
         width: 0px;
+    } 
+  }
+
+  @keyframes showatts {
+    0% { 
+        height: 0px;
+    } 
+  
+    50% { 
+        height: 125px;
+    } 
+  
+    100% { 
+        height: 250px;
+    }
+  }
+  @keyframes removeatts {
+    0% { 
+        height: 250px;
+    } 
+  
+    50% { 
+        height: 125px;
+    } 
+  
+    100% { 
+        height: 0px;
     } 
   }
 
@@ -172,3 +192,27 @@ i {
  .blockedsentence {
      font-size: 24px;
  }
+
+ @media screen and (max-width: 690px) { 
+     #att-panel { 
+         position: fixed;
+         width: 100%;
+         height: 0px;
+         bottom: 0;
+         background-color: white;
+        }
+    #main {
+        padding-bottom: 250px;
+    }
+    }
+
+@media screen and (min-width: 691px) {
+        #att-panel {
+            overflow: hidden;
+            flex: 0 0 auto;
+            width: 0px;
+            height: 100%;
+            background-color: transparent;
+            border-radius: 6px;
+    }
+}
