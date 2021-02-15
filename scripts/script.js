@@ -39,7 +39,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
                     body: JSON.stringify(send)
                   }
                   
-                  url = "http://localhost:5001/numu-know/us-central1/app/api/update/1"
+                  url = "https://us-central1-numu-know.cloudfunctions.net/app/api/update/1"
                   fetch(url, postInfo).then(populateMain(anobject, docName))
                 
                 }                
