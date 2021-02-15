@@ -46,7 +46,7 @@ i {
     flex: 0 0 auto;
     width: 0px;
     height: 100%;
-    background-color: lightgray;
+    background-color: transparent;
     border-radius: 6px;
 }
 #att-panel {
@@ -54,7 +54,7 @@ i {
         flex: 0 0 auto;
         width: 0px;
         height: 100%;
-        background-color: lightgray;
+        background-color: transparent;
         border-radius: 6px;
 }
 #doc-title {
