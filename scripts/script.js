@@ -19,7 +19,19 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
             valueSpan.contentEditable='true'
             dc[key] = wordObj[key] 
     }
+    addattdiv = document.createElement("div")
+    attpanelcontainer.append(addattdiv)
+    addattdiv.setAttribute("id", "addattbtndiv")
 
+    addattbtn = document.createElement("button")
+    addattdiv.append(addattbtn)
+    addattbtn.setAttribute("id", "add-att")
+    addattbtn.append("Add Attribute")
+
+    // document.getElementById('add-att').addEventListener('click', function(event){
+
+
+    // })
 
 
     document.getElementById('attpanelcontainer').addEventListener('focusout', async function(event) {
@@ -54,13 +66,23 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj) {
     w = document.getElementById('att-panel').clientWidth
     if (w === 0) {
         //slide att-panel into view.
+        setTimeout(function(){ 
+            attitems = document.querySelectorAll('.att-item')
+            attitems.forEach(item => {
+                item.style.whiteSpace = "normal"
+            })}, 500);
         document.getElementById('att-panel').style.animation = "animate .5s linear forwards";
         //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
         addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+        
     }
     else {
         //don't expand, just fade in new word
         addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+        attitems = document.querySelectorAll('.att-item')
+            attitems.forEach(item => {
+                item.style.whiteSpace = "normal"
+            })
     }
 }
 
@@ -157,7 +179,7 @@ function populateSideBar(item, index) {
         document.getElementById(itemID).append(itemName)
 }
 
-function toogleSideBar() {
+function toggleSideBar() {
     w = document.getElementById('doc-panel').clientWidth
     if (w === 0) {
         document.getElementById('doc-panel').style.animation = "animate .5s linear forwards";
@@ -179,7 +201,12 @@ function startUp() {
 
 startUp()
 
-document.getElementById('doc-toggler').addEventListener('click', function() {toogleSideBar()}, false)
-document.getElementById('exit-panel').addEventListener('click', function() {document.getElementById('att-panel').style.animation = "deanimate .5s linear backwards";}, false)
+document.getElementById('doc-toggler').addEventListener('click', function() {toggleSideBar()}, false)
+document.getElementById('exit-panel').addEventListener('click', function() {
+    attitems = document.querySelectorAll('.att-item')
+            attitems.forEach(item => {
+                item.style.whiteSpace = "nowrap"
+            })
+    document.getElementById('att-panel').style.animation = "deanimate .5s linear backwards";}, false)
 
 // add a loader to documents list and main document holder

@@ -133,7 +133,7 @@ i {
   }
   .att-item {
       margin-left: 15px;
-    /* white-space: nowrap; */
+    white-space: nowrap;
     flex-wrap: wrap;
     font-size: 20px;
   }
