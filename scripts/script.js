@@ -1,4 +1,8 @@
+var el = document.querySelector('#nav-icon4');
 
+el.onclick = function() {
+  el.classList.toggle('open');
+}
             
 const firebaseUI = new firebaseui.auth.AuthUI(firebase.auth());
 
@@ -282,6 +286,7 @@ function populateSideBar(item, index) {
 }
 
 function toggleSideBar() {
+    console.log('toggled')
     w = document.getElementById('doc-panel').clientWidth
     if (w === 0) {
         document.getElementById('doc-panel').style.animation = "animate .5s linear forwards";
@@ -294,7 +299,7 @@ function toggleSideBar() {
             })              
         })
     }
-    else if (w===250) {
+    else {
         document.getElementById('doc-panel').style.animation = "deanimate .5s linear backwards";
     }
 }
@@ -306,7 +311,7 @@ function startUp(currentUser) {
 }
 
 
-document.getElementById('doc-toggler').addEventListener('click', function() {toggleSideBar()}, false)
+document.getElementById('nav-icon4').addEventListener('click', function() {toggleSideBar()}, false)
 document.getElementById('exit-panel').addEventListener('click', function() {
     attitems = document.querySelectorAll('.att-item')
             attitems.forEach(item => {
