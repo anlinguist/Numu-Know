@@ -49,11 +49,12 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 });
 
 
-function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser) {  
+function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus) {  
     attpanelcontainer = document.createElement("div")
     document.getElementById('attpanelcontainer').replaceWith(attpanelcontainer)
     attpanelcontainer.setAttribute("id", "attpanelcontainer")
     dc = {}
+    console.log(userstatus)
     for (var key in wordObj) {
         // check if the property/key is defined in the object itself, not in parent
             attribute = key
@@ -67,7 +68,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
             randomp.append(valueSpan)
             valueSpan.setAttribute("class", "wordatt-value")
             valueSpan.append(value)
-            if (currentUser !== "") {
+            if (currentUser !== "" && userstatus == "owner") {
                 valueSpan.contentEditable='true'
             }
             dc[key] = wordObj[key] 
@@ -115,7 +116,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
 
 }
 
-function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser) {
+function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus) {
     removeAllChildNodes(document.getElementById('attpanelcontainer'))
     w = document.getElementById('att-panel').clientWidth
     h = document.getElementById('att-panel').clientHeight
@@ -130,12 +131,12 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUs
                 })}, 500);
             document.getElementById('att-panel').style.animation = "animate .5s linear forwards";
             //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
             
         }
         else {
             //don't expand, just fade in new word
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
             attitems = document.querySelectorAll('.att-item')
                 attitems.forEach(item => {
                     item.style.whiteSpace = "normal"
@@ -153,12 +154,12 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUs
                 })}, 500);
             document.getElementById('att-panel').style.animation = "showatts .5s linear forwards";
             //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
             
         }
         else {
             //don't expand, just fade in new word
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
             attitems = document.querySelectorAll('.att-item')
                 attitems.forEach(item => {
                     item.style.whiteSpace = "normal"
@@ -168,7 +169,7 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUs
 
 }
 
-function populateMain(anobject, docName, currentUser) {
+async function populateMain(anobject, docName, currentUser) {
     maindiv = document.createElement("div")
     document.getElementById('main').replaceWith(maindiv)
     maindiv.setAttribute("id", "main")
@@ -177,6 +178,21 @@ function populateMain(anobject, docName, currentUser) {
     doctitle = document.createElement("h2")
     document.getElementById("main").append(doctitle)
     doctitle.append(docName)
+    // doccontainer = document.createElement("div")
+    // document.getElementById('doc-container').replaceWith(doccontainer)
+    // doccontainer.setAttribute("id", "doc-container")
+
+    let postInfo = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Document': docName,
+          'uid': currentUser
+        }
+      }
+    userstatus = await fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/userstatus', postInfo).then(response => response.text())
+    .then(function(data){ return data})
+
     anobject.forEach(function(item) {
         i+=1
         sentence = document.createElement("p");
@@ -230,11 +246,15 @@ function populateMain(anobject, docName, currentUser) {
             sentenceNum = parseInt(idOfClicked.replace("sentence", "").replace(/word.*/, "")) - 1
             wordNum = parseInt(idOfClicked.replace(/sentence.*word/, "")) - 1
             wordObj = dictionary[event.target.id];
-            clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
+            clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
         }
     })
+    var old_element = document.getElementById("doc-container");
+    var new_element = old_element.cloneNode(true);
+    old_element.parentNode.replaceChild(new_element, old_element);
     document.getElementById('doc-container').addEventListener('click', function (event) {
         if (event.target.matches('.documentitem')) {
+            console.log('populating')
             idofdoc = event.target.id
             idtopopulate = parseInt(idofdoc.replace("item", ""))
             fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
