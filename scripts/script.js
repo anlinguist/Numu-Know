@@ -1,4 +1,55 @@
-function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj) {  
+
+            
+const firebaseUI = new firebaseui.auth.AuthUI(firebase.auth());
+
+
+/**
+ * Firebase Authentication configuration
+ */
+const firebaseUiConfig = {
+  callbacks: {
+    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+      // User successfully signed in.
+      // Return type determines whether we continue the redirect automatically
+      // or whether we leave that to developer to handle.
+                return false;
+    },
+    uiShown: () => {
+    },
+  },
+  signInFlow: 'popup',
+  signInSuccessUrl: '/',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+};
+
+
+
+firebase.auth().onAuthStateChanged((firebaseUser) => {
+  if (firebaseUser) {
+    currentUser = firebaseUser.uid;
+    currentUserName = firebaseUser.displayName
+    currentUserEmail = firebaseUser.email
+    signoutbtn = document.createElement("button")
+    document.querySelector('#firebaseui-auth-container').append(signoutbtn)
+    signoutbtn.append("Sign Out")
+    signoutbtn.setAttribute("id", "signout")
+    document.getElementById("signout").addEventListener('click', function() {
+        signoutbtn.remove();
+        firebase.auth().signOut();
+    })
+    startUp(currentUser)
+  } else {
+      currentUser = ""
+      startUp(currentUser)
+    firebaseUI.start('#firebaseui-auth-container', firebaseUiConfig);
+  }
+});
+
+
+function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser) {  
     attpanelcontainer = document.createElement("div")
     document.getElementById('attpanelcontainer').replaceWith(attpanelcontainer)
     attpanelcontainer.setAttribute("id", "attpanelcontainer")
@@ -16,7 +67,9 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
             randomp.append(valueSpan)
             valueSpan.setAttribute("class", "wordatt-value")
             valueSpan.append(value)
-            valueSpan.contentEditable='true'
+            if (currentUser !== "") {
+                valueSpan.contentEditable='true'
+            }
             dc[key] = wordObj[key] 
     }
     addattdiv = document.createElement("div")
@@ -46,13 +99,14 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
                     method: 'PUT',
                     headers: {
                       'Content-Type': 'application/json',
-                      'Document': docName
+                      'Document': docName,
+                      'uid': currentUser
                     },
                     body: JSON.stringify(send)
                   }
                   
                   url = "https://us-central1-numu-know.cloudfunctions.net/app/api/update/1"
-                  fetch(url, postInfo).then(populateMain(anobject, docName))
+                  fetch(url, postInfo).then(populateMain(anobject, docName, currentUser))
                 
                 }                
             }
@@ -61,7 +115,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
 
 }
 
-function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj) {
+function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser) {
     removeAllChildNodes(document.getElementById('attpanelcontainer'))
     w = document.getElementById('att-panel').clientWidth
     h = document.getElementById('att-panel').clientHeight
@@ -76,12 +130,12 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj) {
                 })}, 500);
             document.getElementById('att-panel').style.animation = "animate .5s linear forwards";
             //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
             
         }
         else {
             //don't expand, just fade in new word
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
             attitems = document.querySelectorAll('.att-item')
                 attitems.forEach(item => {
                     item.style.whiteSpace = "normal"
@@ -99,12 +153,12 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj) {
                 })}, 500);
             document.getElementById('att-panel').style.animation = "showatts .5s linear forwards";
             //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
             
         }
         else {
             //don't expand, just fade in new word
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj)
+            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
             attitems = document.querySelectorAll('.att-item')
                 attitems.forEach(item => {
                     item.style.whiteSpace = "normal"
@@ -114,7 +168,7 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj) {
 
 }
 
-function populateMain(anobject, docName) {
+function populateMain(anobject, docName, currentUser) {
     maindiv = document.createElement("div")
     document.getElementById('main').replaceWith(maindiv)
     maindiv.setAttribute("id", "main")
@@ -176,7 +230,7 @@ function populateMain(anobject, docName) {
             sentenceNum = parseInt(idOfClicked.replace("sentence", "").replace(/word.*/, "")) - 1
             wordNum = parseInt(idOfClicked.replace(/sentence.*word/, "")) - 1
             wordObj = dictionary[event.target.id];
-            clickedWord(anobject, docName, sentenceNum, wordNum, wordObj)
+            clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser)
         }
     })
     document.getElementById('doc-container').addEventListener('click', function (event) {
@@ -185,7 +239,7 @@ function populateMain(anobject, docName) {
             idtopopulate = parseInt(idofdoc.replace("item", ""))
             fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
             .then(response => response.json())
-            .then(data => populateMain(data[idtopopulate]['item']['item']['data'], data[idtopopulate]['id']));
+            .then(data => populateMain(data[idtopopulate]['item']['item']['data'], data[idtopopulate]['id'], currentUser));
         }
     })
 }
@@ -214,20 +268,23 @@ function toggleSideBar() {
         removeAllChildNodes(document.getElementById('doc-container'))
         fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
         .then(response => response.json())
-        .then(data => data.forEach(function(item, index) {populateSideBar(item, index)}));
+        .then(function(data) {
+            data.forEach(function(item, index) {
+            populateSideBar(item, index);
+            })              
+        })
     }
     else if (w===250) {
         document.getElementById('doc-panel').style.animation = "deanimate .5s linear backwards";
     }
 }
 
-function startUp() {
+function startUp(currentUser) {
     fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
   .then(response => response.json())
-  .then(data => populateMain(data[0]['item']['item']['data'], data[0]['id']));
+  .then(function(data) {populateMain(data[0]['item']['item']['data'], data[0]['id'], currentUser)});
 }
 
-startUp()
 
 document.getElementById('doc-toggler').addEventListener('click', function() {toggleSideBar()}, false)
 document.getElementById('exit-panel').addEventListener('click', function() {
@@ -245,3 +302,4 @@ document.getElementById('exit-panel').addEventListener('click', function() {
         }, false)
 
 // add a loader to documents list and main document holder
+
