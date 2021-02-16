@@ -233,7 +233,8 @@ i {
     border: 0px;
     border-radius: 6px;
     position: relative;
-    left: 100%;
+    margin: auto;
+    display: block;
     cursor: pointer;
 
 }
@@ -241,4 +242,5 @@ i {
     position: absolute;
     bottom: 25px;
     white-space: nowrap;
+    width: 100%;
 }
