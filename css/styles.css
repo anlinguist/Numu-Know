@@ -72,7 +72,7 @@ i {
   @keyframes animate { 
     0% { 
         width: 0px;
-        border: 1px solid transparent;
+        border: 3px solid transparent;
     } 
   
     50% { 
@@ -81,14 +81,14 @@ i {
   
     100% { 
         width: 250px;
-        border: 1px solid gray;
+        border: 3px solid gray;
     } 
   } 
 
   @keyframes deanimate { 
     0% { 
         width: 250px;
-        border: 1px solid gray;
+        border: 3px solid gray;
     } 
   
     50% { 
@@ -97,14 +97,14 @@ i {
   
     100% { 
         width: 0px;
-        border: 1px solid transparent;
+        border: 3px solid transparent;
     } 
   }
 
   @keyframes showatts {
     0% { 
         height: 0px;
-        border: 1px solid transparent;
+        border: 3px solid transparent;
     } 
   
     50% { 
@@ -113,13 +113,13 @@ i {
   
     100% { 
         height: 250px;
-        border: 1px solid gray;
+        border: 3px solid gray;
     }
   }
   @keyframes removeatts {
     0% { 
         height: 250px;
-        border: 1px solid gray;
+        border: 3px solid gray;
     } 
   
     50% { 
@@ -128,7 +128,7 @@ i {
   
     100% { 
         height: 0px;
-        border: 1px solid transparent;
+        border: 3px solid transparent;
     } 
   }
 
