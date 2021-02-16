@@ -72,7 +72,7 @@ i {
   @keyframes animate { 
     0% { 
         width: 0px;
-        border: none;
+        border: 1px solid transparent;
     } 
   
     50% { 
@@ -97,14 +97,14 @@ i {
   
     100% { 
         width: 0px;
-        border: none;
+        border: 1px solid transparent;
     } 
   }
 
   @keyframes showatts {
     0% { 
         height: 0px;
-        border: none;
+        border: 1px solid transparent;
     } 
   
     50% { 
@@ -128,7 +128,7 @@ i {
   
     100% { 
         height: 0px;
-        border: none;
+        border: 1px solid transparent;
     } 
   }
 
@@ -160,6 +160,7 @@ i {
   }
   #att-title {
       text-align: center;
+      margin-top: -30px;
   }
   .att-item {
       margin-left: 15px;
