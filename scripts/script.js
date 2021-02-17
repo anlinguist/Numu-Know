@@ -62,7 +62,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
     for (var key in wordObj) {
         // check if the property/key is defined in the object itself, not in parent
             attribute = key
-            value = wordObj[key].replace(".", "").replace('”', "").replace(",", "").replace('“', "").replace("?", "")
+            value = wordObj[key]
             randomp = document.createElement('p')
             valueSpan = document.createElement('span')
             document.getElementById('attpanelcontainer').append(randomp)
@@ -207,27 +207,84 @@ async function populateMain(anobject, docName, currentUser) {
         if (item.words != undefined) {
             words = item.words
             ws = 0
-            words.forEach(function(iword) {
-                ws +=1
-                theword = iword.word
-                morphology = iword.morphemes
-                gloss = iword.gloss
-                wordspan = document.createElement("span");
-                document.getElementById(idname).append(wordspan)
-                wid = idname + "word" + ws
-                wordatts = {}
-                dictionary[wid] = wordatts
-                wordatts["word"] = theword
-                wordatts["morphology"] = morphology
-                wordatts["gloss"] = gloss
-                for (key in iword) {
-                    if (key !== "word" && key !== "morphemes" && key !== "gloss") {
-                        wordatts[key] = iword[key]
+            words.forEach(function(iword, index) {
+                if ("punctuation" in iword) {
+                    ws +=1
+                    theword = iword.punctuation
+                    wordspan = document.createElement("span");
+                    document.getElementById(idname).append(wordspan)
+                    wid = idname + "word" + ws
+                    wordspan.setAttribute("id", wid)
+                    wordspan.className += " iword";
+                    wordspan.className += " punctuation";
+                    //need to test for front punctuation
+                    //if the the item contains "left-quote", do not add space
+                    //else, add space
+                    if (words[index+1] !== undefined) {
+                        if (words[index+1]["punctuation"] === "." ||
+                            words[index+1]["punctuation"] === "?" ||
+                            words[index+1]["punctuation"] === "!" ||
+                            words[index+1]["punctuation"] === "," ||
+                            words[index+1]["punctuation"] === "”"
+                        ) {
+                            document.getElementById(wid).append(theword)
+                        }
+                        else {
+                            if (theword === "“") {
+                                document.getElementById(wid).append(theword)
+                            }
+                            else {
+                                document.getElementById(wid).append(theword + " ")
+                            }
+                        }
+                    }
+                    else {
+                    document.getElementById(wid).append(theword + " ")
+
+                }}
+                else {
+                    ws +=1
+                    theword = iword.word
+                    morphology = iword.morphemes
+                    gloss = iword.gloss
+                    wordspan = document.createElement("span");
+                    document.getElementById(idname).append(wordspan)
+                    wid = idname + "word" + ws
+                    wordatts = {}
+                    dictionary[wid] = wordatts
+                    wordatts["word"] = theword
+                    wordatts["morphology"] = morphology
+                    wordatts["gloss"] = gloss
+                    for (key in iword) {
+                        if (key !== "word" && key !== "morphemes" && key !== "gloss") {
+                            wordatts[key] = iword[key]
+                        }
+                    }
+                    wordspan.setAttribute("id", wid)
+                    wordspan.setAttribute("class", "iword")
+
+                    //need to test if next item is punctuation
+                    //if it's a right right-quote, ",", "?", "!", or "!", do not add space.
+                    //else, add space
+                    console.log(words[index+1])
+                    if (words[index+1] !== undefined) {
+                    if (words[index+1]["punctuation"] === "." ||
+                        words[index+1]["punctuation"] === "?" ||
+                        words[index+1]["punctuation"] === "!" ||
+                        words[index+1]["punctuation"] === "," ||
+                        words[index+1]["punctuation"] === "”"
+                    ) {
+                        document.getElementById(wid).append(theword)
+                    }
+                    else {
+                        document.getElementById(wid).append(theword + " ")
                     }
                 }
-                wordspan.setAttribute("id", wid)
-                wordspan.setAttribute("class", "iword")
-                document.getElementById(wid).append(theword + " ")
+                else {
+                    document.getElementById(wid).append(theword)
+                }
+                }
+                
             })
         }
         else if (item.block) {
@@ -245,7 +302,7 @@ async function populateMain(anobject, docName, currentUser) {
         document.getElementById(tidname).append(translation)
     })
     document.getElementById('main').addEventListener('click', function (event) {
-        if (event.target.matches('.iword')) {
+        if (event.target.matches('.iword') && !event.target.matches('.punctuation')) {
             idOfClicked = event.target.id
             sentenceNum = parseInt(idOfClicked.replace("sentence", "").replace(/word.*/, "")) - 1
             wordNum = parseInt(idOfClicked.replace(/sentence.*word/, "")) - 1

@@ -352,3 +352,7 @@ i {
   #nav-icon4.open:hover span {
       background-color: red;
   }
+
+  .punctuation {
+      cursor: default;
+  }
