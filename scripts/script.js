@@ -1,3 +1,11 @@
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`)
+
+window.addEventListener('resize', () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+})
+
 var el = document.querySelector('#nav-icon4');
 
 el.onclick = function() {
@@ -58,7 +66,6 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
     document.getElementById('attpanelcontainer').replaceWith(attpanelcontainer)
     attpanelcontainer.setAttribute("id", "attpanelcontainer")
     dc = {}
-    console.log(userstatus)
     for (var key in wordObj) {
         // check if the property/key is defined in the object itself, not in parent
             attribute = key
@@ -81,6 +88,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
     attpanelcontainer.append(addattdiv)
     addattdiv.setAttribute("id", "addattbtndiv")
 
+    if (currentUser !== "" && userstatus == "owner") {
     addattbtn = document.createElement("button")
     addattdiv.append(addattbtn)
     addattbtn.setAttribute("id", "add-att")
@@ -102,6 +110,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
         acNameInput = document.createElement("input")
         acName.append(acNameInput)
         acNameInput.setAttribute("id", "acNameInput")
+        acNameInput.select()
         document.getElementById("acNameInput").style.animation = "grow .5s linear forwards"
         labelDiv.append("Name this attribute")
 
@@ -118,24 +127,42 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
         document.getElementById('canceladdatt').addEventListener('click', function(event) {
             document.getElementById("acName").style.animation = "degrow-font .5s linear forwards"
             document.getElementById("acNameLabel").style.animation = "degrow .5s linear forwards"
-            document.getElementById("acNameInput").style.animation = "degrow .5s linear forwards"
+            try{
+                document.getElementById("acNameInput").style.animation = "degrow .5s linear forwards"
+            }
+            catch {
+                document.getElementById("acAttInput").style.animation = "degrow .5s linear forwards"
+            }
             setTimeout(function(){ 
                 attCapture.replaceWith(addattbtn)
             }, 500)
         })
         document.getElementById('confirmaddatt').addEventListener('click', function(event) {
-            labelDiv.innerHTML = "Add a value"
+            handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj)
         })
+        document.getElementById('acNameInput').addEventListener('keydown', function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj)
+            }
+        }, false)
 
 
 
     })
+}
 
     // document.getElementById('add-att').addEventListener('click', function(event){
 
 
     // })
-
+    document.getElementById('attpanelcontainer').addEventListener('keydown', function(e) {
+        if (e.target.matches('.wordatt-value')) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+        }
+    }
+    }, false)
 
     document.getElementById('attpanelcontainer').addEventListener('focusout', async function(event) {
         if (event.target.matches('.wordatt-value')) {
@@ -163,6 +190,84 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
       });
 
 
+}
+
+function handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj) {
+    attname = document.getElementById('acNameInput').value
+    if (attname == "") {
+        return
+    }
+    else {
+        document.getElementById("acNameLabel").innerHTML = "Give " + attname + " a value"
+        acAttInput = document.createElement("input")
+        document.getElementById('acNameInput').replaceWith(acAttInput)
+        acAttInput.setAttribute("id", "acAttInput")
+        acAttInput.select()
+
+        confirmaddattvalue = document.createElement("div")
+        document.getElementById("confirmaddatt").replaceWith(confirmaddattvalue)
+        confirmaddattvalue.setAttribute("id", "confirmaddattvalue")
+        confirmaddattvalue.append("✓")
+
+        document.getElementById("confirmaddattvalue").addEventListener("click", function(e) {
+            attributevalue = document.getElementById('acAttInput').value
+
+            anobject[sentenceNum]['words'][wordNum][attname] = document.getElementById('acAttInput').value
+                send = {
+                        'data': anobject
+                    }
+                let postInfo = {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Document': docName,
+                      'uid': currentUser
+                    },
+                    body: JSON.stringify(send)
+                  }
+                  
+                  url = "https://us-central1-numu-know.cloudfunctions.net/app/api/update/1"
+                  fetch(url, postInfo).then(populateMain(anobject, docName, currentUser))
+                  wordObj[attname] = attributevalue
+                  addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+                  attitems = document.querySelectorAll('.att-item')
+                      attitems.forEach(item => {
+                          item.style.whiteSpace = "normal"
+                      })
+
+        })
+
+        document.getElementById("acAttInput").addEventListener('keydown', function(enterevent) {
+            if (enterevent.key === "Enter") {
+                enterevent.preventDefault();
+                attributevalue = document.getElementById('acAttInput').value
+
+                anobject[sentenceNum]['words'][wordNum][attname] = document.getElementById('acAttInput').value
+                send = {
+                        'data': anobject
+                    }
+                let postInfo = {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Document': docName,
+                      'uid': currentUser
+                    },
+                    body: JSON.stringify(send)
+                  }
+                  
+                  url = "https://us-central1-numu-know.cloudfunctions.net/app/api/update/1"
+                  fetch(url, postInfo).then(populateMain(anobject, docName, currentUser))
+                  wordObj[attname] = attributevalue
+                  addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+                  attitems = document.querySelectorAll('.att-item')
+                      attitems.forEach(item => {
+                          item.style.whiteSpace = "normal"
+                      })
+
+            }
+        }, false)
+    }
 }
 
 function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus) {
@@ -311,7 +416,6 @@ async function populateMain(anobject, docName, currentUser) {
                     //need to test if next item is punctuation
                     //if it's a right right-quote, ",", "?", "!", or "!", do not add space.
                     //else, add space
-                    console.log(words[index+1])
                     if (words[index+1] !== undefined) {
                     if (words[index+1]["punctuation"] === "." ||
                         words[index+1]["punctuation"] === "?" ||
@@ -360,7 +464,6 @@ async function populateMain(anobject, docName, currentUser) {
     old_element.parentNode.replaceChild(new_element, old_element);
     document.getElementById('doc-container').addEventListener('click', function (event) {
         if (event.target.matches('.documentitem')) {
-            console.log('populating')
             idofdoc = event.target.id
             idtopopulate = parseInt(idofdoc.replace("item", ""))
             fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
@@ -388,7 +491,6 @@ function populateSideBar(item, index) {
 }
 
 function toggleSideBar() {
-    console.log('toggled')
     w = document.getElementById('doc-panel').clientWidth
     if (w === 0) {
         document.getElementById('doc-panel').style.animation = "animate .5s linear forwards";

@@ -5,7 +5,7 @@
   }
 
 body {
-    height: calc( 100vh - 16px );
+    height: calc(var(--vh, 1vh) *100 - 16px);
 }
 i {
     font-style: normal;
@@ -382,6 +382,15 @@ i {
   #acNameInput:focus {
     outline: none !important;
   }
+  #acAttInput {
+    border: none;
+    border-radius: 6px;
+  width: 70%;
+  font-size: 18px;
+}
+#acAttInput:focus {
+  outline: none !important;
+}
   #canceladdatt {
       margin-top: 5px;
       margin-bottom: 9px;
@@ -400,6 +409,16 @@ i {
       color: green;
       cursor: pointer;
   }
+
+  #confirmaddattvalue {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    width: 15%;
+  }
+  #confirmaddattvalue:hover {
+    color: green;
+    cursor: pointer;
+}
 
   @keyframes grow {
       0% {
