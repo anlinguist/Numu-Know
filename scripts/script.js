@@ -86,6 +86,51 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
     addattbtn.setAttribute("id", "add-att")
     addattbtn.append("Add Attribute")
 
+    document.getElementById('add-att').addEventListener('click', function(event) {
+
+        attCapture = document.createElement("div")
+        addattbtn.replaceWith(attCapture)
+        acName = document.createElement("div")
+        attCapture.append(acName)
+        attCapture.setAttribute("id", "newattbuilder")
+        acName.setAttribute("id", "acName")
+        document.getElementById("acName").style.animation = "grow-font .5s linear forwards"
+        labelDiv = document.createElement("div")
+        attCapture.append(labelDiv)
+        labelDiv.setAttribute("id", "acNameLabel")
+        document.getElementById("acNameLabel").style.animation = "grow .5s linear forwards"
+        acNameInput = document.createElement("input")
+        acName.append(acNameInput)
+        acNameInput.setAttribute("id", "acNameInput")
+        document.getElementById("acNameInput").style.animation = "grow .5s linear forwards"
+        labelDiv.append("Name this attribute")
+
+        canceladdatt = document.createElement("div")
+        acName.append(canceladdatt)
+        canceladdatt.setAttribute("id", "canceladdatt")
+        canceladdatt.append("×")
+
+        confirmaddatt = document.createElement("div")
+        acName.append(confirmaddatt)
+        confirmaddatt.setAttribute("id", "confirmaddatt")
+        confirmaddatt.append("✓")
+
+        document.getElementById('canceladdatt').addEventListener('click', function(event) {
+            document.getElementById("acName").style.animation = "degrow-font .5s linear forwards"
+            document.getElementById("acNameLabel").style.animation = "degrow .5s linear forwards"
+            document.getElementById("acNameInput").style.animation = "degrow .5s linear forwards"
+            setTimeout(function(){ 
+                attCapture.replaceWith(addattbtn)
+            }, 500)
+        })
+        document.getElementById('confirmaddatt').addEventListener('click', function(event) {
+            labelDiv.innerHTML = "Add a value"
+        })
+
+
+
+    })
+
     // document.getElementById('add-att').addEventListener('click', function(event){
 
 

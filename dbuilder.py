@@ -2,21 +2,21 @@ import requests
 import sys
 
 doveobj = [
-    {"words": [{"word": "Sumuga-duwa","morphemes": "sumu-ga-duwa", "gloss": "once-MOD-also"}, {"word": "soo","morphemes": "soo", "gloss": "NOM"}, {"word": "ehobe","morphemes": "ehobe", "gloss": "dove"}, {"word": "wahoo-ga","morphemes": "wahoo-ga", "gloss": "two.ACC-have"}, {"word": "tooamutse’e-gana","morphemes": "tooa-mu-tse’e-gana", "gloss": "child-PL-DIM-have"}, {"punctuation": "."}, {"punctuation": "”"}], "translation": "Once, there was a Dove who had two little children."},
-{"words": [{"word": "Umudooga","morphemes": "umu-dooga", "gloss": "they-??"}, {"word": "tugamane","morphemes": "tuga-mane", "gloss": "eat-do"}, {"word": "meabodote","morphemes": "mea-bodote", "gloss": "go-round.trip"}, {"punctuation": "."}], "translation": "She often went out and returned with food for them"},
-{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then"}, {"word": "sumu","morphemes": "sumu", "gloss": "one"}, {"word": "tabeno-ga","morphemes": "tabeno-ga", "gloss": "day-MOD"}, {"punctuation": ","}, {"word": "tu","morphemes": "tu", "gloss": "own"}, {"word": "dooamu","morphemes": "dooamu", "gloss": "children"}, {"word": "tu","morphemes": "tu", "gloss": "own"}, {"word": "nobekwaesoo-ga","morphemes": "nobe-kwae-soo-ga", "gloss": "house-LOC-ADV-MOD"}, {"word": "mu","morphemes": "mu", "gloss": "3PL"}, {"word": "tamakwuse","morphemes": "tamakwu-se", "gloss": "leave-SEQ"}, {"word": "tukamea","morphemes": "tuka-mea", "gloss": "eat-go"}, {"punctuation": "."}], "translation": "Then one day, apparently, she left her children in her house to go get food."},
-{"words": [{"word": "Yise-ga","morphemes": "yise-ga", "gloss": "then-MOD"}, {"word": "koo","morphemes": "koo", "gloss": "OBL"}, {"word": "ehobe","morphemes": "ehobe", "gloss": "dove"}, {"word": "mease","morphemes": "mea-se", "gloss": "go-SEQ"}, {"punctuation": ","}, {"word": "soo","morphemes": "soo", "gloss": "NOM"}, {"word": "mu","morphemes": "mu", "gloss": "3PL"}, {"word": "dooake’e","morphemes": "dooake’e", "gloss": "girls"}, {"word": "hi’e","morphemes": "hi’e", "gloss": "PAT.uncle"}, {"word": "ga","morphemes": "ga", "gloss": "?"}, {"word": "umuba","morphemes": "umu-ba", "gloss": "they-with"}, {"word": "petuse","morphemes": "petu-se", "gloss": "arrive-SEQ"}, {"word": "mu","morphemes": "mu", "gloss": "they"}, {"word": "tubenga","morphemes": "tubenga", "gloss": "ask"}, {"punctuation": ","}], "translation": "Then after the Dove left, the girls’ paternal uncle arrived to them and asked,"},
-{"words": [{"punctuation": "“"}, {"word": "Hanosoo","morphemes": "hanosoo", "gloss": "where"}, {"word": "mu","morphemes": "mu", "gloss": "you.PL"}, {"word": "bea","morphemes": "bea", "gloss": "mother"}, {"word": "meapu","morphemes": "mea-pu", "gloss": "go-PFV"}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’ega","morphemes": "me’e-ga", "gloss": "QTE-MOD"}, {"punctuation": "."}], "translation": "“Where did your mother go?”"},
-{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then"}, {"punctuation": ","}, {"punctuation": "“"}, {"word": "me","morphemes": "me", "gloss": "our.EXCL"}, {"word": "bea","morphemes": "bea", "gloss": "mother"}, {"word": "tugameapu","morphemes": "tuga-mea-pu", "gloss": "eat-go-PFV"}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’e","morphemes": "me’e", "gloss": "QTE"}, {"word": "mu","morphemes": "mu", "gloss": "3PL"}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls"}, {"punctuation": "."}], "translation": "Then, “Our mother went to get food,” the girls said."},
-{"words": [{"word": "Soo","morphemes": "soo", "gloss": "NOM"}, {"word": "hi’e","morphemes": "hi’e", "gloss": "PAT.uncle"}, {"word": "yise","morphemes": "yise", "gloss": "then"}, {"word": "mu","morphemes": "mu", "gloss": "them"}, {"word": "nekuseka","morphemes": "nekuseka", "gloss": "scold"}], "translation": "The paternal uncle scolded them,"},
-{"words": [{"punctuation": "“"}, {"word": "Tuwaga-duwasoo","morphemes": "tuwaga-duwasoo", "gloss": "hole-also"}, {"word": "mu","morphemes": "mu", "gloss": "you.PL"}, {"word": "bea-ga","morphemes": "bea-ga", "gloss": "mother-MOD"}, {"word": "mu","morphemes": "mu", "gloss": "3PL"}, {"word": "tu","morphemes": "tu", "gloss": "own"}, {"word": "pubua’a","morphemes": "pu-bua’a", "gloss": "RE~friend"}, {"punctuation": ","}, {"punctuation": "”"}], "translation": "“Your mother goes to the hole/stock-pile(?) of her friends;”"},
-{"words": [{"punctuation": "“"}, {"word": "hema","morphemes": "hema", "gloss": "what"}, {"word": "how","morphemes": "how", "gloss": "how"}, {"word": "tugwekwaetuga","morphemes": "tugwekwaetuga", "gloss": "?????????"}, {"word": "hane’yaina","morphemes": "hane-’yai-na", "gloss": "do-HAB-SIM"}, {"word": "mu","morphemes": "mu", "gloss": "2PL"}, {"word": "tukakute","morphemes": "tuka-kute", "gloss": "eat-APL"}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’ega","morphemes": "me’e-ga", "gloss": "QTE-MOD"}, {"word": "yise","morphemes": "yise", "gloss": "then"}, {"word": "soo","morphemes": "soo", "gloss": "NOM"}, {"word": "mu","morphemes": "mu", "gloss": "3PL"}, {"word": "hi’e","morphemes": "hi’e", "gloss": "PAT.uncle"}, {"punctuation": "."}], "translation": "“that’s what she does to bring you food to eat,” their uncle said."},
-{"words": [{"word": "Mu","morphemes": "mu", "gloss": "3PL"}, {"word": "netammase","morphemes": "netamma-se", "gloss": "tell-SEQ"}, {"punctuation": ","}, {"word": "umuba’yoo","morphemes": "umu-ba’yoo", "gloss": "they-from.with"}, {"word": "me","morphemes": "me", "gloss": "QTE"}, {"word": "mea","morphemes": "mea", "gloss": "go"}, {"punctuation": ","}, {"word": "yise","morphemes": "yise", "gloss": "then"}, {"word": "umu","morphemes": "umu", "gloss": "they"}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls"}, {"word": "suda","morphemes": "suda", "gloss": "bad"}, {"word": "nuumase","morphemes": "nuuma-se", "gloss": "feel-SEQ"}, {"word": "oe","morphemes": "oe", "gloss": "there"}, {"word": "kono’o","morphemes": "kono’o", "gloss": "stand.PL"}, {"punctuation": "."}], "translation": "After telling them, it’s said he went away from them, and then the girls were sad standing there."},
-{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then"}, {"word": "umu","morphemes": "umu", "gloss": "they"}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls"}, {"word": "pea","morphemes": "pea", "gloss": "mother"}, {"word": "yise","morphemes": "yise", "gloss": "then"}, {"word": "petu","morphemes": "petu", "gloss": "arrive"}, {"punctuation": ""}], "translation": "Then the girls’ mother arrived."},
-{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then"}, {"word": "umu","morphemes": "umu", "gloss": "they"}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls"}, {"word": "tu","morphemes": "tu", "gloss": "own"}, {"word": "pea","morphemes": "pea", "gloss": "mother"}, {"word": "tuukwe’e","morphemes": "tuukwe’e", "gloss": "tell"}], "translation": "Then the girls told their mother,"},
-{"words": [{"punctuation": "“"}, {"word": "Me","morphemes": "me", "gloss": "our"}, {"word": "bea","morphemes": "bea", "gloss": "mother"}, {"word": "u","morphemes": "u", "gloss": "you"}, {"punctuation": ","}, {"word": "soo","morphemes": "soo", "gloss": "NOM"}, {"word": "me","morphemes": "me", "gloss": "our"}, {"word": "hi’e","morphemes": "hi’e", "gloss": "uncle"}, {"word": "nummeba","morphemes": "numme-ba", "gloss": "us-with"}, {"word": "petuse","morphemes": "petu-se", "gloss": "arrive-SEQ"}, {"punctuation": ","}, {"word": "me","morphemes": "me", "gloss": "us"}, {"word": "nekuseka","morphemes": "nekuseka", "gloss": "scold"}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’e","morphemes": "me’e", "gloss": "QTE"}, {"word": "tu","morphemes": "tu", "gloss": "own"}, {"word": "pea","morphemes": "pea", "gloss": "mother"}, {"word": "tuukwe’e","morphemes": "tuukwe’e", "gloss": "tell"}, {"punctuation": "."}], "translation": "“Our mother! Our paternal uncle came and scolded us,” so they told their mother."},
-{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then"}, {"word": "soo","morphemes": "soo", "gloss": "NOM"}, {"word": "mu","morphemes": "mu", "gloss": "3PL"}, {"word": "bea","morphemes": "bea", "gloss": "mother"}, {"word": "suda","morphemes": "suda", "gloss": "bad"}, {"word": "nuumase","morphemes": "nuuma-se", "gloss": "feel-SEQ"}, {"punctuation": ","}], "translation": "Then their mother felt bad,"},
-{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then"}, {"word": "yagakooha","morphemes": "yaga-kooha", "gloss": "cry-begin"}, {"punctuation": ","}, {"word": "‘Hoowehoho","morphemes": "hoowehoho", "gloss": "hoowehoho"}, {"punctuation": ","}, {"word": "Hoowehoho","morphemes": "hoowehoho", "gloss": "hoowehoho"}, {"word": "ho","morphemes": "ho", "gloss": "ho"}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’e","morphemes": "me’e", "gloss": "QTE"}, {"word": "yise","morphemes": "yise", "gloss": "then"}, {"punctuation": "."}], "translation": "And she began to cry, ‘Hoowehoho, Hoowehoho ho.”"}
+    {"words": [{"word": "Sumuga-duwa","morphemes": "sumu-ga-duwa", "gloss": "once-MOD-also", "notes": "..."}, {"word": "soo","morphemes": "soo", "gloss": "NOM", "notes": "..."}, {"word": "ehobe","morphemes": "ehobe", "gloss": "dove", "notes": "..."}, {"word": "wahoo-ga","morphemes": "wahoo-ga", "gloss": "two.ACC-have", "notes": "..."}, {"word": "tooamutse’e-gana","morphemes": "tooa-mu-tse’e-gana", "gloss": "child-PL-DIM-have", "notes": "..."}, {"punctuation": "."}, {"punctuation": "”"}], "translation": "Once, there was a Dove who had two little children."},
+{"words": [{"word": "Umudooga","morphemes": "umu-dooga", "gloss": "they-??", "notes": "..."}, {"word": "tugamane","morphemes": "tuga-mane", "gloss": "eat-do", "notes": "..."}, {"word": "meabodote","morphemes": "mea-bodote", "gloss": "go-round.trip", "notes": "..."}, {"punctuation": "."}], "translation": "She often went out and returned with food for them"},
+{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "sumu","morphemes": "sumu", "gloss": "one", "notes": "..."}, {"word": "tabeno-ga","morphemes": "tabeno-ga", "gloss": "day-MOD", "notes": "..."}, {"punctuation": ","}, {"word": "tu","morphemes": "tu", "gloss": "own", "notes": "..."}, {"word": "dooamu","morphemes": "dooamu", "gloss": "children", "notes": "..."}, {"word": "tu","morphemes": "tu", "gloss": "own", "notes": "..."}, {"word": "nobekwaesoo-ga","morphemes": "nobe-kwae-soo-ga", "gloss": "house-LOC-ADV-MOD", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "3PL", "notes": "..."}, {"word": "tamakwuse","morphemes": "tamakwu-se", "gloss": "leave-SEQ", "notes": "..."}, {"word": "tukamea","morphemes": "tuka-mea", "gloss": "eat-go", "notes": "..."}, {"punctuation": "."}], "translation": "Then one day, apparently, she left her children in her house to go get food."},
+{"words": [{"word": "Yise-ga","morphemes": "yise-ga", "gloss": "then-MOD", "notes": "..."}, {"word": "koo","morphemes": "koo", "gloss": "OBL", "notes": "..."}, {"word": "ehobe","morphemes": "ehobe", "gloss": "dove", "notes": "..."}, {"word": "mease","morphemes": "mea-se", "gloss": "go-SEQ", "notes": "..."}, {"punctuation": ","}, {"word": "soo","morphemes": "soo", "gloss": "NOM", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "3PL", "notes": "..."}, {"word": "dooake’e","morphemes": "dooake’e", "gloss": "girls", "notes": "..."}, {"word": "hi’e","morphemes": "hi’e", "gloss": "PAT.uncle", "notes": "..."}, {"word": "ga","morphemes": "ga", "gloss": "?", "notes": "..."}, {"word": "umuba","morphemes": "umu-ba", "gloss": "they-with", "notes": "..."}, {"word": "petuse","morphemes": "petu-se", "gloss": "arrive-SEQ", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "they", "notes": "..."}, {"word": "tubenga","morphemes": "tubenga", "gloss": "ask", "notes": "..."}, {"punctuation": ","}], "translation": "Then after the Dove left, the girls’ paternal uncle arrived to them and asked,"},
+{"words": [{"punctuation": "“"}, {"word": "Hanosoo","morphemes": "hanosoo", "gloss": "where", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "you.PL", "notes": "..."}, {"word": "bea","morphemes": "bea", "gloss": "mother", "notes": "..."}, {"word": "meapu","morphemes": "mea-pu", "gloss": "go-PFV", "notes": "..."}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’ega","morphemes": "me’e-ga", "gloss": "QTE-MOD", "notes": "..."}, {"punctuation": "."}], "translation": "“Where did your mother go?”"},
+{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"punctuation": ","}, {"punctuation": "“"}, {"word": "me","morphemes": "me", "gloss": "our.EXCL", "notes": "..."}, {"word": "bea","morphemes": "bea", "gloss": "mother", "notes": "..."}, {"word": "tugameapu","morphemes": "tuga-mea-pu", "gloss": "eat-go-PFV", "notes": "..."}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’e","morphemes": "me’e", "gloss": "QTE", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "3PL", "notes": "..."}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls", "notes": "..."}, {"punctuation": "."}], "translation": "Then, “Our mother went to get food,” the girls said."},
+{"words": [{"word": "Soo","morphemes": "soo", "gloss": "NOM", "notes": "..."}, {"word": "hi’e","morphemes": "hi’e", "gloss": "PAT.uncle", "notes": "..."}, {"word": "yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "them", "notes": "..."}, {"word": "nekuseka","morphemes": "nekuseka", "gloss": "scold", "notes": "..."}], "translation": "The paternal uncle scolded them,"},
+{"words": [{"punctuation": "“"}, {"word": "Tuwaga-duwasoo","morphemes": "tuwaga-duwasoo", "gloss": "hole-also", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "you.PL", "notes": "..."}, {"word": "bea-ga","morphemes": "bea-ga", "gloss": "mother-MOD", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "3PL", "notes": "..."}, {"word": "tu","morphemes": "tu", "gloss": "own", "notes": "..."}, {"word": "pubua’a","morphemes": "pu-bua’a", "gloss": "RE~friend", "notes": "..."}, {"punctuation": ","}, {"punctuation": "”"}], "translation": "“Your mother goes to the hole/stock-pile(?) of her friends;”"},
+{"words": [{"punctuation": "“"}, {"word": "hema","morphemes": "hema", "gloss": "what", "notes": "..."}, {"word": "how","morphemes": "how", "gloss": "how", "notes": "..."}, {"word": "tugwekwaetuga","morphemes": "tugwekwaetuga", "gloss": "?????????", "notes": "..."}, {"word": "hane’yaina","morphemes": "hane-’yai-na", "gloss": "do-HAB-SIM", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "2PL", "notes": "..."}, {"word": "tukakute","morphemes": "tuka-kute", "gloss": "eat-APL", "notes": "..."}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’ega","morphemes": "me’e-ga", "gloss": "QTE-MOD", "notes": "..."}, {"word": "yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "soo","morphemes": "soo", "gloss": "NOM", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "3PL", "notes": "..."}, {"word": "hi’e","morphemes": "hi’e", "gloss": "PAT.uncle", "notes": "..."}, {"punctuation": "."}], "translation": "“that’s what she does to bring you food to eat,” their uncle said."},
+{"words": [{"word": "Mu","morphemes": "mu", "gloss": "3PL", "notes": "..."}, {"word": "netammase","morphemes": "netamma-se", "gloss": "tell-SEQ", "notes": "..."}, {"punctuation": ","}, {"word": "umuba’yoo","morphemes": "umu-ba’yoo", "gloss": "they-from.with", "notes": "..."}, {"word": "me","morphemes": "me", "gloss": "QTE", "notes": "..."}, {"word": "mea","morphemes": "mea", "gloss": "go", "notes": "..."}, {"punctuation": ","}, {"word": "yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "umu","morphemes": "umu", "gloss": "they", "notes": "..."}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls", "notes": "..."}, {"word": "suda","morphemes": "suda", "gloss": "bad", "notes": "..."}, {"word": "nuumase","morphemes": "nuuma-se", "gloss": "feel-SEQ", "notes": "..."}, {"word": "oe","morphemes": "oe", "gloss": "there", "notes": "..."}, {"word": "kono’o","morphemes": "kono’o", "gloss": "stand.PL", "notes": "..."}, {"punctuation": "."}], "translation": "After telling them, it’s said he went away from them, and then the girls were sad standing there."},
+{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "umu","morphemes": "umu", "gloss": "they", "notes": "..."}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls", "notes": "..."}, {"word": "pea","morphemes": "pea", "gloss": "mother", "notes": "..."}, {"word": "yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "petu","morphemes": "petu", "gloss": "arrive", "notes": "..."}, {"punctuation": ""}], "translation": "Then the girls’ mother arrived."},
+{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "umu","morphemes": "umu", "gloss": "they", "notes": "..."}, {"word": "tooake’e","morphemes": "tooake’e", "gloss": "girls", "notes": "..."}, {"word": "tu","morphemes": "tu", "gloss": "own", "notes": "..."}, {"word": "pea","morphemes": "pea", "gloss": "mother", "notes": "..."}, {"word": "tuukwe’e","morphemes": "tuukwe’e", "gloss": "tell", "notes": "..."}], "translation": "Then the girls told their mother,"},
+{"words": [{"punctuation": "“"}, {"word": "Me","morphemes": "me", "gloss": "our", "notes": "..."}, {"word": "bea","morphemes": "bea", "gloss": "mother", "notes": "..."}, {"word": "u","morphemes": "u", "gloss": "you", "notes": "..."}, {"punctuation": ","}, {"word": "soo","morphemes": "soo", "gloss": "NOM", "notes": "..."}, {"word": "me","morphemes": "me", "gloss": "our", "notes": "..."}, {"word": "hi’e","morphemes": "hi’e", "gloss": "uncle", "notes": "..."}, {"word": "nummeba","morphemes": "numme-ba", "gloss": "us-with", "notes": "..."}, {"word": "petuse","morphemes": "petu-se", "gloss": "arrive-SEQ", "notes": "..."}, {"punctuation": ","}, {"word": "me","morphemes": "me", "gloss": "us", "notes": "..."}, {"word": "nekuseka","morphemes": "nekuseka", "gloss": "scold", "notes": "..."}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’e","morphemes": "me’e", "gloss": "QTE", "notes": "..."}, {"word": "tu","morphemes": "tu", "gloss": "own", "notes": "..."}, {"word": "pea","morphemes": "pea", "gloss": "mother", "notes": "..."}, {"word": "tuukwe’e","morphemes": "tuukwe’e", "gloss": "tell", "notes": "..."}, {"punctuation": "."}], "translation": "“Our mother! Our paternal uncle came and scolded us,” so they told their mother."},
+{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "soo","morphemes": "soo", "gloss": "NOM", "notes": "..."}, {"word": "mu","morphemes": "mu", "gloss": "3PL", "notes": "..."}, {"word": "bea","morphemes": "bea", "gloss": "mother", "notes": "..."}, {"word": "suda","morphemes": "suda", "gloss": "bad", "notes": "..."}, {"word": "nuumase","morphemes": "nuuma-se", "gloss": "feel-SEQ", "notes": "..."}, {"punctuation": ","}], "translation": "Then their mother felt bad,"},
+{"words": [{"word": "Yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"word": "yagakooha","morphemes": "yaga-kooha", "gloss": "cry-begin", "notes": "..."}, {"punctuation": ","}, {"word": "‘Hoowehoho","morphemes": "hoowehoho", "gloss": "hoowehoho", "notes": "..."}, {"punctuation": ","}, {"word": "Hoowehoho","morphemes": "hoowehoho", "gloss": "hoowehoho", "notes": "..."}, {"word": "ho","morphemes": "ho", "gloss": "ho", "notes": "..."}, {"punctuation": ","}, {"punctuation": "”"}, {"word": "me’e","morphemes": "me’e", "gloss": "QTE", "notes": "..."}, {"word": "yise","morphemes": "yise", "gloss": "then", "notes": "..."}, {"punctuation": "."}], "translation": "And she began to cry, ‘Hoowehoho, Hoowehoho ho.”"}
 ]
 obj = [
     {
@@ -24,17 +24,20 @@ obj = [
             {
                 "word": "Sumuga",
                 "morphemes": "sumu-ga",
-                "gloss": "once-NOM"
+                "gloss": "once-NOM",
+"notes": "..."
             },
             {
                 "word": "duwa",
                 "morphemes": "duwa",
-                "gloss": "also"
+                "gloss": "also",
+"notes": "..."
             },
             {
                 "word": "tunanugana",
                 "morphemes": "tu-na-nuga-na",
-                "gloss": "APS-MM-dance-SIM"
+                "gloss": "APS-MM-dance-SIM",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -42,22 +45,26 @@ obj = [
             {
                 "word": "soo",
                 "morphemes": "soo",
-                "gloss": "NOM"
+                "gloss": "NOM",
+"notes": "..."
             },
             {
                 "word": "Edza’a",
                 "morphemes": "edza’a",
-                "gloss": "coyote"
+                "gloss": "coyote",
+"notes": "..."
             },
             {
                 "word": "oe",
                 "morphemes": "oe",
-                "gloss": "there"
+                "gloss": "there",
+"notes": "..."
             },
             {
                 "word": "petugase",
                 "morphemes": "petu-ga-se",
-                "gloss": "arrive-go-SEQ"
+                "gloss": "arrive-go-SEQ",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -70,32 +77,38 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "numu",
                 "morphemes": "numu",
-                "gloss": "people"
+                "gloss": "people",
+"notes": "..."
             },
             {
                 "word": "(h)oonakwa",
                 "morphemes": "hoonakwa",
-                "gloss": "outside"
+                "gloss": "outside",
+"notes": "..."
             },
             {
                 "word": "peda-pukwae",
                 "morphemes": "peda-pukwae",
-                "gloss": "make.fire-place.where"
+                "gloss": "make.fire-place.where",
+"notes": "..."
             },
             {
                 "word": "numubaa",
                 "morphemes": "numu-baa",
-                "gloss": "people-with"
+                "gloss": "people-with",
+"notes": "..."
             },
             {
                 "word": "katu",
                 "morphemes": "katu",
-                "gloss": "sit"
+                "gloss": "sit",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -108,22 +121,26 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "numuga",
                 "morphemes": "numu-ga",
-                "gloss": "people-MOD"
+                "gloss": "people-MOD",
+"notes": "..."
             },
             {
                 "word": "o’o",
                 "morphemes": "o’o",
-                "gloss": "there"
+                "gloss": "there",
+"notes": "..."
             },
             {
                 "word": "nakakatu",
                 "morphemes": "naka-katu",
-                "gloss": "hear-sit"
+                "gloss": "hear-sit",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -136,17 +153,20 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "o’o",
                 "morphemes": "o’o",
-                "gloss": "there"
+                "gloss": "there",
+"notes": "..."
             },
             {
                 "word": "katuse",
                 "morphemes": "katu-se",
-                "gloss": "sit-SEQ"
+                "gloss": "sit-SEQ",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -154,17 +174,20 @@ obj = [
             {
                 "word": "mu",
                 "morphemes": "mu",
-                "gloss": "3PL"
+                "gloss": "3PL",
+"notes": "..."
             },
             {
                 "word": "numu",
                 "morphemes": "numu",
-                "gloss": "people"
+                "gloss": "people",
+"notes": "..."
             },
             {
                 "word": "tubenga",
                 "morphemes": "tubenga",
-                "gloss": "ask"
+                "gloss": "ask",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -178,22 +201,26 @@ obj = [
             {
                 "word": "Hano",
                 "morphemes": "hano",
-                "gloss": "where"
+                "gloss": "where",
+"notes": "..."
             },
             {
                 "word": "soo",
                 "morphemes": "soo",
-                "gloss": "NOM"
+                "gloss": "NOM",
+"notes": "..."
             },
             {
                 "word": "Poenabe",
                 "morphemes": "poenabe",
-                "gloss": "chief"
+                "gloss": "chief",
+"notes": "..."
             },
             {
                 "word": "nobe",
                 "morphemes": "nobe",
-                "gloss": "house"
+                "gloss": "house",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -201,22 +228,26 @@ obj = [
             {
                 "word": "nu",
                 "morphemes": "nu",
-                "gloss": "I"
+                "gloss": "I",
+"notes": "..."
             },
             {
                 "word": "sakwa",
                 "morphemes": "sakwa",
-                "gloss": "MOD"
+                "gloss": "MOD",
+"notes": "..."
             },
             {
                 "word": "oba",
                 "morphemes": "oba",
-                "gloss": "there"
+                "gloss": "there",
+"notes": "..."
             },
             {
                 "word": "yooe-katuga",
                 "morphemes": "yooe-katu-ga",
-                "gloss": "warm-sit-go"
+                "gloss": "warm-sit-go",
+"notes": "..."
             },
             {
                 "punctuation": "."
@@ -233,48 +264,57 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "umu",
                 "morphemes": "umu",
-                "gloss": "they"
+                "gloss": "they",
+"notes": "..."
             },
             {"punctuation": "“"}, 
             {
                 "word": "o’otema’a",
                 "morphemes": "o’o-tema’a",
-                "gloss": "there-EMPH"
+                "gloss": "there-EMPH",
+"notes": "..."
             },
             {
                 "word": "soo",
                 "morphemes": "soo",
-                "gloss": "NOM"
+                "gloss": "NOM",
+"notes": "..."
             },
             {
                 "word": "Poenabe",
                 "morphemes": "poenabe",
-                "gloss": "chief"
+                "gloss": "chief",
+"notes": "..."
             },
             {
                 "word": "nobe",
                 "morphemes": "nobe",
-                "gloss": "house"
+                "gloss": "house",
+"notes": "..."
             },
             {
                 "word": "oba",
                 "morphemes": "oba",
-                "gloss": "there"
+                "gloss": "there",
+"notes": "..."
             },
             {
                 "word": "katuga”",
                 "morphemes": "katu-ga",
-                "gloss": "sit-MOD"
+                "gloss": "sit-MOD",
+"notes": "..."
             },
             {
                 "word": "me’e",
                 "morphemes": "me’e",
-                "gloss": "QTE"
+                "gloss": "QTE",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -287,32 +327,38 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "umu",
                 "morphemes": "umu",
-                "gloss": "they"
+                "gloss": "they",
+"notes": "..."
             },
             {
                 "word": "tutubetso’ne",
                 "morphemes": "tutubetso’ne",
-                "gloss": "elder.woman"
+                "gloss": "elder.woman",
+"notes": "..."
             },
             {
                 "word": "yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "umu",
                 "morphemes": "umu",
-                "gloss": "they"
+                "gloss": "they",
+"notes": "..."
             },
             {
                 "word": "pebeawabe",
                 "morphemes": "pe-beawabe",
-                "gloss": "RE~old.woman"
+                "gloss": "RE~old.woman",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -320,22 +366,26 @@ obj = [
             {
                 "word": "oma",
                 "morphemes": "o-ma",
-                "gloss": "3S-at"
+                "gloss": "3S-at",
+"notes": "..."
             },
             {
                 "word": "naneko’e",
                 "morphemes": "naneko’e",
-                "gloss": "laugh.PL"
+                "gloss": "laugh.PL",
+"notes": "..."
             },
             {
                 "word": "koo",
                 "morphemes": "koo",
-                "gloss": "OBL"
+                "gloss": "OBL",
+"notes": "..."
             },
             {
                 "word": "edza’ama",
                 "morphemes": "edza’a-ma",
-                "gloss": "coyote-at"
+                "gloss": "coyote-at",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -348,32 +398,38 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "soo",
                 "morphemes": "soo",
-                "gloss": "NOM"
+                "gloss": "NOM",
+"notes": "..."
             },
             {
                 "word": "Edza’a",
                 "morphemes": "edza’a",
-                "gloss": "coyote"
+                "gloss": "coyote",
+"notes": "..."
             },
             {
                 "word": "koo",
                 "morphemes": "koo",
-                "gloss": "OBL"
+                "gloss": "OBL",
+"notes": "..."
             },
             {
                 "word": "Poenabeba",
                 "morphemes": "poenabe-ba",
-                "gloss": "chief-with"
+                "gloss": "chief-with",
+"notes": "..."
             },
             {
                 "word": "petugase",
                 "morphemes": "petu-ga-se",
-                "gloss": "arrive-go-SEQ"
+                "gloss": "arrive-go-SEQ",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -386,12 +442,14 @@ obj = [
             {
                 "word": "Oo-no",
                 "morphemes": "oo-no",
-                "gloss": "3S-with"
+                "gloss": "3S-with",
+"notes": "..."
             },
             {
                 "word": "yadooagadunumme",
                 "morphemes": "yadooa-gadu-numme",
-                "gloss": "speak-talk-STAT"
+                "gloss": "speak-talk-STAT",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -404,17 +462,20 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "o",
                 "morphemes": "o",
-                "gloss": "3S"
+                "gloss": "3S",
+"notes": "..."
             },
             {
                 "word": "tubengagadunumme",
                 "morphemes": "tubenga-gadu-numme",
-                "gloss": "ask-sit-STAT"
+                "gloss": "ask-sit-STAT",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -423,27 +484,32 @@ obj = [
             {
                 "word": "How",
                 "morphemes": "how",
-                "gloss": "how"
+                "gloss": "how",
+"notes": "..."
             },
             {
                 "word": "sakwa",
                 "morphemes": "sakwa",
-                "gloss": "MOD"
+                "gloss": "MOD",
+"notes": "..."
             },
             {
                 "word": "nu",
                 "morphemes": "nu",
-                "gloss": "I"
+                "gloss": "I",
+"notes": "..."
             },
             {
                 "word": "koo",
                 "morphemes": "koo",
-                "gloss": "OBL"
+                "gloss": "OBL",
+"notes": "..."
             },
             {
                 "word": "hoobeadoona",
                 "morphemes": "hoobea-doo-na",
-                "gloss": "song-make-SIM"
+                "gloss": "song-make-SIM",
+"notes": "..."
             },
             {
                 "punctuation": "."
@@ -460,32 +526,38 @@ obj = [
             {
                 "word": "Susumuna",
                 "morphemes": "susumuna",
-                "gloss": "sometimes"
+                "gloss": "sometimes",
+"notes": "..."
             },
             {
                 "word": "nu",
                 "morphemes": "nu",
-                "gloss": "I"
+                "gloss": "I",
+"notes": "..."
             },
             {
                 "word": "hoobeadooyaetu",
                 "morphemes": "hoobea-doo-yaetu",
-                "gloss": "song-make-HAB"
+                "gloss": "song-make-HAB",
+"notes": "..."
             },
             {
                 "word": "koo",
                 "morphemes": "koo",
-                "gloss": "OBL"
+                "gloss": "OBL",
+"notes": "..."
             },
             {
                 "word": "numu",
                 "morphemes": "numu",
-                "gloss": "people"
+                "gloss": "people",
+"notes": "..."
             },
             {
                 "word": "nuka",
                 "morphemes": "nuka",
-                "gloss": "dance"
+                "gloss": "dance",
+"notes": "..."
             },
             {
                 "punctuation": "."
@@ -502,27 +574,32 @@ obj = [
             {
                 "word": "How",
                 "morphemes": "how",
-                "gloss": "Q"
+                "gloss": "Q",
+"notes": "..."
             },
             {
                 "word": "oohoo”",
                 "morphemes": "oohoo",
-                "gloss": "like.that"
+                "gloss": "like.that",
+"notes": "..."
             },
             {
                 "word": "me’e",
                 "morphemes": "me’e",
-                "gloss": "QTE"
+                "gloss": "QTE",
+"notes": "..."
             },
             {
                 "word": "soo",
                 "morphemes": "soo",
-                "gloss": "NOM"
+                "gloss": "NOM",
+"notes": "..."
             },
             {
                 "word": "Poenabe",
                 "morphemes": "poenabe",
-                "gloss": "chief"
+                "gloss": "chief",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -536,22 +613,26 @@ obj = [
             {
                 "word": "Ta",
                 "morphemes": "ta",
-                "gloss": "we.DL"
+                "gloss": "we.DL",
+"notes": "..."
             },
             {
                 "word": "sakwa-nano",
                 "morphemes": "sakwa-nano",
-                "gloss": "MOD-both"
+                "gloss": "MOD-both",
+"notes": "..."
             },
             {
                 "word": "numuba",
                 "morphemes": "numu-ba",
-                "gloss": "people-with"
+                "gloss": "people-with",
+"notes": "..."
             },
             {
                 "word": "nuga",
                 "morphemes": "nuga",
-                "gloss": "dance"
+                "gloss": "dance",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -562,17 +643,20 @@ obj = [
             {
                 "word": "me’e",
                 "morphemes": "me’e",
-                "gloss": "QTE"
+                "gloss": "QTE",
+"notes": "..."
             },
             {
                 "word": "soo",
                 "morphemes": "soo",
-                "gloss": "NOM"
+                "gloss": "NOM",
+"notes": "..."
             },
             {
                 "word": "Edza’a",
                 "morphemes": "edza’a",
-                "gloss": "coyote"
+                "gloss": "coyote",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -585,17 +669,20 @@ obj = [
             {
                 "word": "Yise",
                 "morphemes": "yise",
-                "gloss": "then"
+                "gloss": "then",
+"notes": "..."
             },
             {
                 "word": "nano",
                 "morphemes": "nano",
-                "gloss": "both"
+                "gloss": "both",
+"notes": "..."
             },
             {
                 "word": "nuka",
                 "morphemes": "nuka",
-                "gloss": "dance"
+                "gloss": "dance",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
@@ -608,17 +695,20 @@ obj = [
             {
                 "word": "Soo",
                 "morphemes": "soo",
-                "gloss": "NOM"
+                "gloss": "NOM",
+"notes": "..."
             },
             {
                 "word": "Edza’a",
                 "morphemes": "edza’a",
-                "gloss": "coyote"
+                "gloss": "coyote",
+"notes": "..."
             },
             {
                 "word": "tunekwu’u",
                 "morphemes": "tunekwu’u",
-                "gloss": "sing"
+                "gloss": "sing",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -626,7 +716,8 @@ obj = [
             {
                 "word": "hoobea’too",
                 "morphemes": "hoobea-too",
-                "gloss": "song-make"
+                "gloss": "song-make",
+"notes": "..."
             }
         ],
         "translation": "Coyote sang and made-song:"
@@ -641,32 +732,38 @@ obj = [
             {
                 "word": "How",
                 "morphemes": "how",
-                "gloss": "why"
+                "gloss": "why",
+"notes": "..."
             },
             {
                 "word": "mu",
                 "morphemes": "mu",
-                "gloss": "you.PL"
+                "gloss": "you.PL",
+"notes": "..."
             },
             {
                 "word": "momoko’ne",
                 "morphemes": "momoko’ne",
-                "gloss": "RE~woman"
+                "gloss": "RE~woman",
+"notes": "..."
             },
             {
                 "word": "ki",
                 "morphemes": "ki",
-                "gloss": "NEG"
+                "gloss": "NEG",
+"notes": "..."
             },
             {
                 "word": "nummeba",
                 "morphemes": "numme-ba",
-                "gloss": "us.EXCL-with"
+                "gloss": "us.EXCL-with",
+"notes": "..."
             },
             {
                 "word": "nuka",
                 "morphemes": "nuka",
-                "gloss": "dance"
+                "gloss": "dance",
+"notes": "..."
             },
             {
                 "punctuation": "?"
@@ -683,17 +780,20 @@ obj = [
             {
                 "word": "Yabe",
                 "morphemes": "yabe",
-                "gloss": "hurry"
+                "gloss": "hurry",
+"notes": "..."
             },
             {
                 "word": "ya’a",
                 "morphemes": "ya’a",
-                "gloss": "here"
+                "gloss": "here",
+"notes": "..."
             },
             {
                 "word": "nuga",
                 "morphemes": "nuga",
-                "gloss": "dance"
+                "gloss": "dance",
+"notes": "..."
             },
             {
                 "punctuation": ""
@@ -704,17 +804,20 @@ obj = [
             {
                 "word": "mee",
                 "morphemes": "mee",
-                "gloss": "QTE"
+                "gloss": "QTE",
+"notes": "..."
             },
             {
                 "word": "too’e",
                 "morphemes": "too’e",
-                "gloss": "try"
+                "gloss": "try",
+"notes": "..."
             },
             {
                 "word": "unnekayakwe",
                 "morphemes": "unne-ka-yakwe",
-                "gloss": "say-go-HAB"
+                "gloss": "say-go-HAB",
+"notes": "..."
             },
             {
                 "punctuation": ","
@@ -727,17 +830,20 @@ obj = [
             {
                 "word": "Ki",
                 "morphemes": "ki",
-                "gloss": "NEG"
+                "gloss": "NEG",
+"notes": "..."
             },
             {
                 "word": "numu",
                 "morphemes": "numu",
-                "gloss": "person"
+                "gloss": "person",
+"notes": "..."
             },
             {
                 "word": "nabedzape",
                 "morphemes": "na-bedzape",
-                "gloss": "MM-like"
+                "gloss": "MM-like",
+"notes": "..."
             }, 
             {
                 "punctuation": "."
