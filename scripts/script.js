@@ -328,7 +328,9 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUs
 
 
 varSelected = ""
-async function populateMain(anobject, docName, currentUser) {
+async function populateMain(fullobject, docName, currentUser) {
+    anobject = fullobject['data']
+    defaultDocumentVariant = fullobject['defaultVar']
     maindiv = document.createElement("div")
     document.getElementById('main').replaceWith(maindiv)
     maindiv.setAttribute("id", "main")
@@ -359,7 +361,7 @@ async function populateMain(anobject, docName, currentUser) {
       }
     userstatus = await fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/userstatus', postInfo).then(response => response.text())
     .then(function(data){ return data})
-
+      console.log(anobject)
     varArr = []
     anobject.forEach(function(item) {
         i+=1
@@ -505,26 +507,26 @@ async function populateMain(anobject, docName, currentUser) {
 
         defaultVariant = document.createElement('span')
         customOptions.append(defaultVariant)
-        defaultVariant.setAttribute("data-value", "default")
+        defaultVariant.setAttribute("data-value", defaultDocumentVariant)
         if (varSelected == "") {
             defaultVariant.setAttribute("class", "custom-option selected")
-            document.querySelector('.custom-select__trigger span').textContent = "default";
+            document.querySelector('.custom-select__trigger span').textContent = defaultDocumentVariant.replace("variant-", "");
         }
         else {
             defaultVariant.setAttribute("class", "custom-option")
         }
-        defaultVariant.append("default")
+        defaultVariant.append(defaultDocumentVariant.replace("variant-", ""))
 
         for (variant in varArr) {
             varOption = document.createElement('span')
             customOptions.append(varOption)
             varOption.setAttribute("data-value", varArr[variant])
             varOption.setAttribute("class", "custom-option")
-            varOption.append(varArr[variant])
+            varOption.append(varArr[variant].replace("variant-", ""))
             if (varSelected != "") {
                 if (varArr[variant] == varSelected) {
                     varOption.setAttribute("class", "custom-option selected")
-                    document.querySelector('.custom-select__trigger span').textContent = varSelected;
+                    document.querySelector('.custom-select__trigger span').textContent = varSelected.replace("variant-", "");
                 }
                 else {
                     varOption.setAttribute("class", "custom-option")
@@ -546,15 +548,15 @@ async function populateMain(anobject, docName, currentUser) {
                 if (!this.classList.contains('selected')) {
                     this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
                     this.classList.add('selected');
-                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-                    selected_option = this.textContent
-                    if (selected_option == "default") {
+                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent.replace("variant-", "");
+                    selected_option = "variant-" + this.textContent
+                    if (selected_option == defaultDocumentVariant) {
                         varSelected = ""
                     }
                     else {
                         varSelected = selected_option
                     }
-                    populateMain(anobject, docName, currentUser)
+                    populateMain(fullobject, docName, currentUser)
                 }
             })
         }
@@ -579,7 +581,7 @@ async function populateMain(anobject, docName, currentUser) {
             sentenceNum = parseInt(idOfClicked.replace("sentence", "").replace(/word.*/, "")) - 1
             wordNum = parseInt(idOfClicked.replace(/sentence.*word/, "")) - 1
             wordObj = dictionary[event.target.id];
-            clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+            clickedWord(fullobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
         }
     })
     var old_element = document.getElementById("doc-container");
@@ -592,7 +594,7 @@ async function populateMain(anobject, docName, currentUser) {
             varSelected = ""
             fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
             .then(response => response.json())
-            .then(data => populateMain(data[idtopopulate]['item']['item']['data'], data[idtopopulate]['id'], currentUser));
+            .then(data => populateMain(data[idtopopulate]['item']['item'], data[idtopopulate]['id'], currentUser));
         }
     })
 }
@@ -635,7 +637,7 @@ function toggleSideBar() {
 function startUp(currentUser) {
     fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
   .then(response => response.json())
-  .then(function(data) {populateMain(data[0]['item']['item']['data'], data[0]['id'], currentUser)});
+  .then(function(data) {populateMain(data[0]['item']['item'], data[0]['id'], currentUser)});
 }
 
 
@@ -656,3 +658,4 @@ document.getElementById('exit-panel').addEventListener('click', function() {
 
 // add a loader to documents list and main document holder
 
+//convert ’ to '
