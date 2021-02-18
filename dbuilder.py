@@ -853,6 +853,44 @@ obj = [
     }
 ]
 
+
+add = [
+    "Sümüga-düwa su ihobi wahu-ga tuamütsi’i-gana",
+    "Ümüduga tügamani miabodoti",
+    "Yeiši šümü tabino-ga tü duamü tü nobikweišu-ga mü tamakwusi tukamia",
+    "Yeiši-ga ku ihobi miasi šu mü tuaki’i hai’i ga ümüma pitüsi mü tübinga",
+    "Hanosu mü bia miapü mi’iga",
+    "Yeiši mi bia tügamiapü mi’i mü duaki’i",
+    "Su hai’i yeiši mü niküsika",
+    "Tüwaga-düwasu mü bia-ga mü tü pübüa’a",
+    "hima hau tügwikweitüga hani’yaina mü tükaküti mi’iga yeiši šu mü hai’i",
+    "Mü nitammasi ümüba’yu mi mia yeiši ümü tuaki’i šüda nüümasi oi kono’o",
+    "Yeiši ümü tuaki’i pia yeiši pitü",
+    "Yeiši ümü tuaki’i tü pia tüüki’i",
+    "Mi bia ü su mi hai’i nümmiba pitüsi mi niküsika mi’i tü pia tüükwi’i",
+    "Yeiši su mü pia süda nüümasi",
+    "Yeiši yagakooha Huwihoho Huwihoho ho mi’i yeiši"
+]
+sentNumber = -1
+for item in add:
+    wordNumber=-1
+    sentNumber += 1
+    sentence = doveobj[sentNumber]["words"]
+    words = item.split()
+    for sword in words:
+        wordNumber += 1
+        match = False
+        while not match:
+            try:
+                sentence[wordNumber]["word"]
+                sentence[wordNumber]["variant-ortho"] = sword
+                match = True
+            except IndexError:
+                match = True
+            except:
+                wordNumber += 1
+                match = False
+
 send = {
     'author': 'satchez',
     'data': doveobj

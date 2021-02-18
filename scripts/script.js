@@ -6,6 +6,7 @@ window.addEventListener('resize', () => {
     document.documentElement.style.setProperty('--vh', `${vh}px`)
 })
 
+
 var el = document.querySelector('#nav-icon4');
 
 el.onclick = function() {
@@ -67,6 +68,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
     attpanelcontainer.setAttribute("id", "attpanelcontainer")
     dc = {}
     for (var key in wordObj) {
+        if (!key.startsWith('variant-')) {
         // check if the property/key is defined in the object itself, not in parent
             attribute = key
             value = wordObj[key]
@@ -83,6 +85,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
                 valueSpan.contentEditable='true'
             }
             dc[key] = wordObj[key] 
+        }
     }
     addattdiv = document.createElement("div")
     attpanelcontainer.append(addattdiv)
@@ -323,15 +326,25 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUs
 
 }
 
+
+varSelected = ""
 async function populateMain(anobject, docName, currentUser) {
     maindiv = document.createElement("div")
     document.getElementById('main').replaceWith(maindiv)
     maindiv.setAttribute("id", "main")
+
+    titleDiv = document.createElement("div")
+    document.getElementById("main").append(titleDiv)
+    titleDiv.setAttribute("id", "titleDiv")
     i=0
     dictionary = {}
     doctitle = document.createElement("h2")
-    document.getElementById("main").append(doctitle)
+    doctitle.setAttribute("id", "doctitle")
+    document.getElementById("titleDiv").append(doctitle)
     doctitle.append(docName)
+    // if () {
+
+    // }
     // doccontainer = document.createElement("div")
     // document.getElementById('doc-container').replaceWith(doccontainer)
     // doccontainer.setAttribute("id", "doc-container")
@@ -347,6 +360,7 @@ async function populateMain(anobject, docName, currentUser) {
     userstatus = await fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/userstatus', postInfo).then(response => response.text())
     .then(function(data){ return data})
 
+    varArr = []
     anobject.forEach(function(item) {
         i+=1
         sentence = document.createElement("p");
@@ -358,6 +372,14 @@ async function populateMain(anobject, docName, currentUser) {
             words = item.words
             ws = 0
             words.forEach(function(iword, index) {
+                for (key in iword) {
+                    if (key.startsWith('variant-')) {
+                        multipleVars = true
+                        if (!varArr.includes(key)) {
+                            varArr.push(key)
+                        }
+                    }
+                }
                 if ("punctuation" in iword) {
                     ws +=1
                     theword = iword.punctuation
@@ -394,7 +416,12 @@ async function populateMain(anobject, docName, currentUser) {
                 }}
                 else {
                     ws +=1
-                    theword = iword.word
+                    if (varSelected == "") {
+                        theword = iword.word
+                    }
+                    else {
+                        theword = iword[varSelected]
+                    }
                     morphology = iword.morphemes
                     gloss = iword.gloss
                     wordspan = document.createElement("span");
@@ -402,7 +429,7 @@ async function populateMain(anobject, docName, currentUser) {
                     wid = idname + "word" + ws
                     wordatts = {}
                     dictionary[wid] = wordatts
-                    wordatts["word"] = theword
+                    wordatts["word"] = iword.word
                     wordatts["morphology"] = morphology
                     wordatts["gloss"] = gloss
                     for (key in iword) {
@@ -413,9 +440,6 @@ async function populateMain(anobject, docName, currentUser) {
                     wordspan.setAttribute("id", wid)
                     wordspan.setAttribute("class", "iword")
 
-                    //need to test if next item is punctuation
-                    //if it's a right right-quote, ",", "?", "!", or "!", do not add space.
-                    //else, add space
                     if (words[index+1] !== undefined) {
                     if (words[index+1]["punctuation"] === "." ||
                         words[index+1]["punctuation"] === "?" ||
@@ -433,7 +457,6 @@ async function populateMain(anobject, docName, currentUser) {
                     document.getElementById(wid).append(theword)
                 }
                 }
-                
             })
         }
         else if (item.block) {
@@ -450,6 +473,96 @@ async function populateMain(anobject, docName, currentUser) {
         t.setAttribute("class", "translation")
         document.getElementById(tidname).append(translation)
     })
+    if (varArr.length>0) {
+        customSelectWrapper = document.createElement('div')
+        doctitle.after(customSelectWrapper)
+        customSelectWrapper.setAttribute("class", "custom-select-wrapper")
+
+        customSelect = document.createElement('div')
+        customSelectWrapper.append(customSelect)
+        customSelect.setAttribute("class", "custom-select")
+
+        customSelectTrigger = document.createElement('div')
+        customSelect.append(customSelectTrigger)
+        customSelectTrigger.setAttribute("class", "custom-select__trigger")
+
+        defaultSpan = document.createElement("span")
+        customSelectTrigger.append(defaultSpan)
+        defaultSpan.append("default")
+
+        arrowDiv = document.createElement("div")
+        customSelectTrigger.append(arrowDiv)
+        arrowDiv.setAttribute("class", "arrow")
+
+        customOptions = document.createElement("div")
+        customSelect.append(customOptions)
+        customOptions.setAttribute("class", "custom-options")
+
+        defaultVariant = document.createElement('span')
+        customOptions.append(defaultVariant)
+        defaultVariant.setAttribute("data-value", "default")
+        if (varSelected == "") {
+            defaultVariant.setAttribute("class", "custom-option selected")
+            document.querySelector('.custom-select__trigger span').textContent = "default";
+        }
+        else {
+            defaultVariant.setAttribute("class", "custom-option")
+        }
+        defaultVariant.append("default")
+
+        for (variant in varArr) {
+            varOption = document.createElement('span')
+            customOptions.append(varOption)
+            varOption.setAttribute("data-value", varArr[variant])
+            varOption.setAttribute("class", "custom-option")
+            varOption.append(varArr[variant])
+            if (varSelected != "") {
+                if (varArr[variant] == varSelected) {
+                    varOption.setAttribute("class", "custom-option selected")
+                    document.querySelector('.custom-select__trigger span').textContent = varSelected;
+                }
+                else {
+                    varOption.setAttribute("class", "custom-option")
+                }
+            }
+            else {
+                varOption.setAttribute("class", "custom-option")
+            }
+        }
+
+
+
+
+        document.querySelector('.custom-select-wrapper').addEventListener('click', function() {
+            this.querySelector('.custom-select').classList.toggle('ddopen');
+        })
+        for (const option of document.querySelectorAll(".custom-option")) {
+            option.addEventListener('click', function() {
+                if (!this.classList.contains('selected')) {
+                    this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+                    this.classList.add('selected');
+                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
+                    selected_option = this.textContent
+                    if (selected_option == "default") {
+                        varSelected = ""
+                    }
+                    else {
+                        varSelected = selected_option
+                    }
+                    populateMain(anobject, docName, currentUser)
+                }
+            })
+        }
+        
+        window.addEventListener('click', function(e) {
+            const select = document.querySelector('.custom-select')
+            if (!select.contains(e.target)) {
+                select.classList.remove('ddopen');
+            }
+        });
+
+    }
+    
     document.getElementById('main').addEventListener('click', function (event) {
         if (event.target.matches('.iword') && !event.target.matches('.punctuation')) {
             idOfClicked = event.target.id
@@ -466,6 +579,7 @@ async function populateMain(anobject, docName, currentUser) {
         if (event.target.matches('.documentitem')) {
             idofdoc = event.target.id
             idtopopulate = parseInt(idofdoc.replace("item", ""))
+            varSelected = ""
             fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
             .then(response => response.json())
             .then(data => populateMain(data[idtopopulate]['item']['item']['data'], data[idtopopulate]['id'], currentUser));
