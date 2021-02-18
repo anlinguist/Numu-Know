@@ -62,7 +62,7 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
 });
 
 
-function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus) {  
+function addAllTheAttsToContainer(fullobject, anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant) {  
     attpanelcontainer = document.createElement("div")
     document.getElementById('attpanelcontainer').replaceWith(attpanelcontainer)
     attpanelcontainer.setAttribute("id", "attpanelcontainer")
@@ -141,12 +141,12 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
             }, 500)
         })
         document.getElementById('confirmaddatt').addEventListener('click', function(event) {
-            handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj)
+            handleAddAtt(fullobject, anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj, author, defaultdocVariant)
         })
         document.getElementById('acNameInput').addEventListener('keydown', function(e) {
             if (e.key === "Enter") {
                 e.preventDefault();
-                handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj)
+                handleAddAtt(fullobject, anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj, author, defaultdocVariant)
             }
         }, false)
 
@@ -173,7 +173,9 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
             if (event.target.innerHTML != dc[attChanged].replace(".", "").replace('”', "").replace(",", "").replace('“', "").replace("?", "")) {
                 anobject[sentenceNum]['words'][wordNum][attChanged] = event.target.innerHTML
                 send = {
-                        'data': anobject
+                        'data': anobject,
+                        'author': author,
+                        'defaultVar': defaultdocVariant
                     }
                 let postInfo = {
                     method: 'PUT',
@@ -186,7 +188,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
                   }
                   
                   url = "https://us-central1-numu-know.cloudfunctions.net/app/api/update/1"
-                  fetch(url, postInfo).then(populateMain(anobject, docName, currentUser))
+                  fetch(url, postInfo).then(populateMain(fullobject, docName, currentUser))
                 
                 }                
             }
@@ -195,7 +197,7 @@ function addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordO
 
 }
 
-function handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj) {
+function handleAddAtt(fullobject, anobject, sentenceNum, wordNum, docName, currentUser, userstatus, wordObj, author, defaultdocVariant) {
     attname = document.getElementById('acNameInput').value
     if (attname == "") {
         return
@@ -217,7 +219,9 @@ function handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, user
 
             anobject[sentenceNum]['words'][wordNum][attname] = document.getElementById('acAttInput').value
                 send = {
-                        'data': anobject
+                        'data': anobject,
+                        'author': author,
+                        'defaultVar': defaultdocVariant
                     }
                 let postInfo = {
                     method: 'PUT',
@@ -230,9 +234,9 @@ function handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, user
                   }
                   
                   url = "https://us-central1-numu-know.cloudfunctions.net/app/api/update/1"
-                  fetch(url, postInfo).then(populateMain(anobject, docName, currentUser))
+                  fetch(url, postInfo).then(populateMain(fullobject, docName, currentUser))
                   wordObj[attname] = attributevalue
-                  addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+                  addAllTheAttsToContainer(fullobject, anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant)
                   attitems = document.querySelectorAll('.att-item')
                       attitems.forEach(item => {
                           item.style.whiteSpace = "normal"
@@ -247,7 +251,9 @@ function handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, user
 
                 anobject[sentenceNum]['words'][wordNum][attname] = document.getElementById('acAttInput').value
                 send = {
-                        'data': anobject
+                        'data': anobject,
+                        'author': author,
+                        'defaultVar': defaultdocVariant
                     }
                 let postInfo = {
                     method: 'PUT',
@@ -260,9 +266,9 @@ function handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, user
                   }
                   
                   url = "https://us-central1-numu-know.cloudfunctions.net/app/api/update/1"
-                  fetch(url, postInfo).then(populateMain(anobject, docName, currentUser))
+                  fetch(url, postInfo).then(populateMain(fullobject, docName, currentUser))
                   wordObj[attname] = attributevalue
-                  addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+                  addAllTheAttsToContainer(fullobject, anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant)
                   attitems = document.querySelectorAll('.att-item')
                       attitems.forEach(item => {
                           item.style.whiteSpace = "normal"
@@ -273,7 +279,8 @@ function handleAddAtt(anobject, sentenceNum, wordNum, docName, currentUser, user
     }
 }
 
-function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus) {
+function clickedWord(fullobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant) {
+    anobject = fullobject['data']
     removeAllChildNodes(document.getElementById('attpanelcontainer'))
     w = document.getElementById('att-panel').clientWidth
     h = document.getElementById('att-panel').clientHeight
@@ -288,12 +295,12 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUs
                 })}, 500);
             document.getElementById('att-panel').style.animation = "animate .5s linear forwards";
             //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+            addAllTheAttsToContainer(fullobject, anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant)
             
         }
         else {
             //don't expand, just fade in new word
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+            addAllTheAttsToContainer(fullobject, anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant)
             attitems = document.querySelectorAll('.att-item')
                 attitems.forEach(item => {
                     item.style.whiteSpace = "normal"
@@ -311,12 +318,12 @@ function clickedWord(anobject, docName, sentenceNum, wordNum, wordObj, currentUs
                 })}, 500);
             document.getElementById('att-panel').style.animation = "showatts .5s linear forwards";
             //for each attribute in wordObj, make a child of attpanelcontainer with the name of attribute: value of attribute
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+            addAllTheAttsToContainer(fullobject, anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant)
             
         }
         else {
             //don't expand, just fade in new word
-            addAllTheAttsToContainer(anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+            addAllTheAttsToContainer(fullobject, anobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant)
             attitems = document.querySelectorAll('.att-item')
                 attitems.forEach(item => {
                     item.style.whiteSpace = "normal"
@@ -334,7 +341,8 @@ async function populateMain(fullobject, docName, currentUser) {
     maindiv = document.createElement("div")
     document.getElementById('main').replaceWith(maindiv)
     maindiv.setAttribute("id", "main")
-
+    author = fullobject['author']
+    defaultdocVariant = defaultDocumentVariant
     titleDiv = document.createElement("div")
     document.getElementById("main").append(titleDiv)
     titleDiv.setAttribute("id", "titleDiv")
@@ -581,7 +589,7 @@ async function populateMain(fullobject, docName, currentUser) {
             sentenceNum = parseInt(idOfClicked.replace("sentence", "").replace(/word.*/, "")) - 1
             wordNum = parseInt(idOfClicked.replace(/sentence.*word/, "")) - 1
             wordObj = dictionary[event.target.id];
-            clickedWord(fullobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus)
+            clickedWord(fullobject, docName, sentenceNum, wordNum, wordObj, currentUser, userstatus, author, defaultdocVariant)
         }
     })
     var old_element = document.getElementById("doc-container");
