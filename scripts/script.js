@@ -420,7 +420,12 @@ async function populateMain(anobject, docName, currentUser) {
                         theword = iword.word
                     }
                     else {
-                        theword = iword[varSelected]
+                        if (varSelected in iword) {
+                            theword = iword[varSelected]
+                        }
+                        else {
+                            theword = iword.word
+                        }
                     }
                     morphology = iword.morphemes
                     gloss = iword.gloss
@@ -556,9 +561,14 @@ async function populateMain(anobject, docName, currentUser) {
         
         window.addEventListener('click', function(e) {
             const select = document.querySelector('.custom-select')
+            try{
             if (!select.contains(e.target)) {
                 select.classList.remove('ddopen');
             }
+        }
+        catch {
+
+        }
         });
 
     }
