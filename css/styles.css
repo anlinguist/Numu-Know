@@ -598,3 +598,38 @@ i {
 #doctitle {
     flex: 1 0 250px;
 }
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: none;
+    border-radius: 6px;
+    background-color: rgb(239, 239, 239);
+    display: inline-block;
+    padding: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-bottom: 15px;
+}
+#upload-container {
+    text-align: center;
+}
+
+#errorMSG {
+    text-align: center;
+    color: red;
+    background-color: #FFCCBB;
+    margin: 10px;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+#successMSG {
+    text-align: center;
+    color: green;
+    background-color: lightgreen;
+    margin: 10px;
+    border-radius: 6px;
+    padding: 10px;
+}

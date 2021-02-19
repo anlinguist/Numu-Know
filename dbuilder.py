@@ -893,8 +893,8 @@ for item in add:
 
 send = {
     'author': 'satchez',
-    'data': doveobj,
+    'data': obj,
     'defaultVar': 'variant-McDermitt (Wycliffe)'
     }
 print(doveobj)
-requests.put("https://us-central1-numu-know.cloudfunctions.net/app/api/update/1", headers={"document":"Dove Story", "uid": "5SjMRYv3h0fjRYwSN8WfKALsOku2"}, json=send)
+requests.put("https://us-central1-numu-know.cloudfunctions.net/app/api/update/1", headers={"document":"Coyote at the Dance", "uid": "5SjMRYv3h0fjRYwSN8WfKALsOku2"}, json=send)

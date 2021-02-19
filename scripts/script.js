@@ -367,6 +367,7 @@ async function populateMain(fullobject, docName, currentUser) {
           'uid': currentUser
         }
       }
+
     userstatus = await fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/userstatus', postInfo).then(response => response.text())
     .then(function(data){ return data})
       console.log(anobject)
@@ -643,6 +644,10 @@ function toggleSideBar() {
 }
 
 function startUp(currentUser) {
+    removeAllChildNodes(document.getElementById('upload-container'))
+    if (currentUser != "") {
+        init()
+    }
     fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
   .then(response => response.json())
   .then(function(data) {populateMain(data[0]['item']['item'], data[0]['id'], currentUser)});
@@ -667,3 +672,204 @@ document.getElementById('exit-panel').addEventListener('click', function() {
 // add a loader to documents list and main document holder
 
 //convert ’ to '
+
+
+function init(){
+    showLabel = document.createElement('label')
+    document.getElementById('upload-container').append(showLabel)
+    showLabel.setAttribute("for", "fileInput")
+    showLabel.setAttribute("class", "custom-file-upload")
+    showLabel.append("Add A New Document")
+    document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+  }
+  
+  function handleFileSelect(event){
+    const reader = new FileReader()
+    reader.onload = handleFileLoad;
+    reader.readAsText(event.target.files[0])
+  }
+  
+  async function handleFileLoad(event){
+      nameOfDocument = document.getElementById('fileInput').value.split(/(\\|\/)/g).pop().replace(".txt", "")
+        console.log(nameOfDocument)
+    //first, validate
+    docArray = event.target.result.split('\n\n')
+    console.log(docArray)
+    docConfiguration = docArray.splice(0,1)
+
+    configItems = docConfiguration[0].split('\n')
+    configItemsLength = configItems.length
+    sentences = []
+    validated = true
+    for (citem in configItems) {
+        if (configItems[citem] == "translation") {
+            translationLine = citem
+        }
+        else {
+            translationLine = false
+        }
+    }
+    
+    for (item in docArray) { //for block of text
+        if (validated) {
+            sentenceObj = {}
+            setOfWords = sentenceObj["words"] = []
+
+            attLength = 4563
+            block = docArray[item].split('\n')
+            twoDArr = []
+            for (indsentence in block) { //for each line in the current block
+                if (validated) {
+                    if (indsentence == translationLine) {
+                        theTranslationKey = block[indsentence]
+                        validated = true
+                    }
+                    else {
+                        words = block[indsentence].split(' ')
+                        if (attLength == 4563) {
+                            attLength = words.length
+                            validated = true
+                        }
+                        if (words.length == attLength) {
+                            validated = true
+                        }
+                        else {
+                                console.log(block)
+                                validated = false
+                        }
+                        twoDArr.push(words)
+                    }
+                }
+            }
+            console.log(twoDArr)
+            const arrayColumn = (arr, n) => arr.map(x => x[n]);
+if (validated) {
+            punctuationRegex = /[\.\?\!\“\”\,]/g
+            firstLine = twoDArr[0]
+            for (column in firstLine) {
+                individualWordObj = {}
+                periodObj = false
+                endQuote = false
+                currentVArray = arrayColumn(twoDArr, column)
+                for (value in currentVArray) {
+                    foundPunctuation = currentVArray[value].match(punctuationRegex)
+                    individualWordObj[configItems[value]] = currentVArray[value]
+                    
+                }
+                if (individualWordObj['word'].includes("“")) {
+                    punctObj = {}
+                    individualWordObj['word'] = individualWordObj['word'].replace("“", "")
+                    punctObj["punctuation"] = "“"
+                    setOfWords.push(punctObj)
+                }
+
+                
+                if (individualWordObj['word'].includes(".")) {
+                    periodObj = {}
+                    individualWordObj['word'] = individualWordObj['word'].replace(".", "").replace("\r", "")
+                    periodObj["punctuation"] = "."
+                }
+                if (individualWordObj['word'].includes("?")) {
+                    periodObj = {}
+                    individualWordObj['word'] = individualWordObj['word'].replace("?", "").replace("\r", "")
+                    periodObj["punctuation"] = "?"
+                }
+                if (individualWordObj['word'].includes("!")) {
+                    periodObj = {}
+                    individualWordObj['word'] = individualWordObj['word'].replace("!", "").replace("\r", "")
+                    periodObj["punctuation"] = "!"
+                }
+                if (individualWordObj['word'].includes(",")) {
+                    periodObj = {}
+                    individualWordObj['word'] = individualWordObj['word'].replace(",", "").replace("\r", "")
+                    periodObj["punctuation"] = ","
+                }
+
+
+                if (individualWordObj['word'].includes("”")) {
+                    endQuote = {}
+                    individualWordObj['word'] = individualWordObj['word'].replace("”", "").replace("\r", "")
+                    endQuote["punctuation"] = "”"
+                }
+                
+
+                setOfWords.push(individualWordObj)
+                if (periodObj) {
+                    setOfWords.push(periodObj)
+                }
+                if (endQuote) {
+                    setOfWords.push(endQuote)
+                }
+            }
+
+
+                
+            if (translationLine) {
+                sentenceObj["translation"] = theTranslationKey
+            }
+            
+            sentences.push(sentenceObj)
+        }
+        }
+    }
+
+    console.log(sentences)
+
+    //next steps:
+    //1. send sentences array to server to create a new database object for the new document.
+    //2. Reset document list
+    //3. Reset main view and show new document.
+
+    send = {
+        'data': sentences,
+        'author': 'Natchez',
+        'defaultVar': "McDermitt (Wycliffe)"
+    }
+    let postInfo = {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        'Document': nameOfDocument,
+        'uid': currentUser
+        },
+        body: JSON.stringify(send)
+    }
+    if (validated) {
+        url = "https://us-central1-numu-know.cloudfunctions.net/app/api/createDB"
+        await fetch(url, postInfo)
+        await populateMain(send, nameOfDocument, currentUser)
+
+        document.getElementById('fileInput').value = ""
+        // // step 2
+        removeAllChildNodes(document.getElementById('doc-container'))
+        fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
+        .then(response => response.json())
+        .then(function(data) {
+            data.forEach(function(item, index) {
+            populateSideBar(item, index);
+            })              
+        })
+        successMSG = document.createElement('div')
+        document.getElementById("upload-container").append(successMSG)
+        successMSG.setAttribute("id", "successMSG")
+        successMSG.append("Successfully created the new document!")
+
+        setTimeout(function(){ 
+            successMSG.remove()
+        }, 5000)
+
+
+    }
+    else {
+        errorMSG = document.createElement('div')
+        document.getElementById("upload-container").append(errorMSG)
+        errorMSG.setAttribute("class", "resultMSG")
+        errorMSG.setAttribute("id", "errorMSG")
+        errorMSG.append("It looks like your document is formatted incorrectly!")
+
+        setTimeout(function(){ 
+            errorMSG.remove()
+        }, 5000)
+    }
+    //sentences is a proper no-sql object that can then sync directly to a new object. 
+  }
