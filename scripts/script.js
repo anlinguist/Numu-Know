@@ -370,7 +370,6 @@ async function populateMain(fullobject, docName, currentUser) {
 
     userstatus = await fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/userstatus', postInfo).then(response => response.text())
     .then(function(data){ return data})
-      console.log(anobject)
     varArr = []
     anobject.forEach(function(item) {
         i+=1
@@ -691,10 +690,8 @@ function init(){
   
   async function handleFileLoad(event){
       nameOfDocument = document.getElementById('fileInput').value.split(/(\\|\/)/g).pop().replace(".txt", "")
-        console.log(nameOfDocument)
     //first, validate
     docArray = event.target.result.split('\n\n')
-    console.log(docArray)
     docConfiguration = docArray.splice(0,1)
 
     configItems = docConfiguration[0].split('\n')
@@ -734,14 +731,12 @@ function init(){
                             validated = true
                         }
                         else {
-                                console.log(block)
                                 validated = false
                         }
                         twoDArr.push(words)
                     }
                 }
             }
-            console.log(twoDArr)
             const arrayColumn = (arr, n) => arr.map(x => x[n]);
 if (validated) {
             punctuationRegex = /[\.\?\!\“\”\,]/g
@@ -813,7 +808,6 @@ if (validated) {
         }
     }
 
-    console.log(sentences)
 
     //next steps:
     //1. send sentences array to server to create a new database object for the new document.
