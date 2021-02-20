@@ -769,7 +769,7 @@ if (validated) {
                     individualWordObj['word'] = individualWordObj['word'].replace(".", "").replace("\r", "")
                     for (eachVariant in individualWordObj) {
                         if (eachVariant.startsWith("variant-")) {
-                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace(".", "").replace("\r", "")
+                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace(".", "")    
                         }
                     }
                     periodObj["punctuation"] = "."
@@ -890,10 +890,11 @@ if (validated) {
         errorMSG.setAttribute("class", "resultMSG")
         errorMSG.setAttribute("id", "errorMSG")
         errorMSG.append("It looks like your document is formatted incorrectly!")
-
+        document.getElementById('fileInput').value = ""
         setTimeout(function(){ 
             errorMSG.remove()
         }, 5000)
     }
+    
     //sentences is a proper no-sql object that can then sync directly to a new object. 
   }
