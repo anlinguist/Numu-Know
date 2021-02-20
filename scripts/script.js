@@ -769,7 +769,7 @@ if (validated) {
                     individualWordObj['word'] = individualWordObj['word'].replace(".", "").replace("\r", "")
                     for (eachVariant in individualWordObj) {
                         if (eachVariant.startsWith("variant-")) {
-                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace(".", "")
+                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace(".", "").replace("\r", "")
                         }
                     }
                     periodObj["punctuation"] = "."
@@ -779,7 +779,7 @@ if (validated) {
                     individualWordObj['word'] = individualWordObj['word'].replace("?", "").replace("\r", "")
                     for (eachVariant in individualWordObj) {
                         if (eachVariant.startsWith("variant-")) {
-                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace("?", "")
+                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace("?", "").replace("\r", "")
                         }
                     }
                     periodObj["punctuation"] = "?"
@@ -789,7 +789,7 @@ if (validated) {
                     individualWordObj['word'] = individualWordObj['word'].replace("!", "").replace("\r", "")
                     for (eachVariant in individualWordObj) {
                         if (eachVariant.startsWith("variant-")) {
-                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace("!", "")
+                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace("!", "").replace("\r", "")
                         }
                     }
                     periodObj["punctuation"] = "!"
@@ -799,7 +799,7 @@ if (validated) {
                     individualWordObj['word'] = individualWordObj['word'].replace(",", "").replace("\r", "")
                     for (eachVariant in individualWordObj) {
                         if (eachVariant.startsWith("variant-")) {
-                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace(",", "")
+                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace(",", "").replace("\r", "")
                         }
                     }
                     periodObj["punctuation"] = ","
@@ -811,7 +811,7 @@ if (validated) {
                     individualWordObj['word'] = individualWordObj['word'].replace("”", "").replace("\r", "")
                     for (eachVariant in individualWordObj) {
                         if (eachVariant.startsWith("variant-")) {
-                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace("”", "")
+                            individualWordObj[eachVariant] = individualWordObj[eachVariant].replace("”", "").replace("\r", "")
                         }
                     }
                     endQuote["punctuation"] = "”"
