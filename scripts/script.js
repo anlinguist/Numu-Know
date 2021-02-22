@@ -477,16 +477,18 @@ async function populateMain(fullobject, docName, currentUser) {
         else if (item.block) {
             block = document.createElement("p")
             document.getElementById(idname).append(block)
-            block.append(item.block)
+            block.append(item.block.replace("```", ""))
             block.setAttribute("class", "blockedsentence")
         }
-        translation = item.translation
-        let t = document.createElement("p")
-        tidname = "translation" + i
-        document.getElementById("main").append(t)
-        t.setAttribute("id", tidname)
-        t.setAttribute("class", "translation")
-        document.getElementById(tidname).append(translation)
+        if (item.translation) {
+            translation = item.translation
+            let t = document.createElement("p")
+            tidname = "translation" + i
+            document.getElementById("main").append(t)
+            t.setAttribute("id", tidname)
+            t.setAttribute("class", "translation")
+            document.getElementById(tidname).append(translation)
+        }
     })
     if (varArr.length>0) {
         customSelectWrapper = document.createElement('div')
@@ -558,7 +560,7 @@ async function populateMain(fullobject, docName, currentUser) {
                     this.classList.add('selected');
                     this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent.replace("variant-", "");
                     selected_option = "variant-" + this.textContent
-                    if (selected_option == defaultDocumentVariant) {
+                    if (this.textContent == defaultDocumentVariant) {
                         varSelected = ""
                     }
                     else {
@@ -717,9 +719,15 @@ function init(){
     for (item in docArray) { //for block of text
         if (validated) {
             sentenceObj = {}
+            if (docArray[item].startsWith("```")) {
+                sentenceObj['block'] = docArray[item]
+                sentences.push(sentenceObj)
+                continue
+            }
             setOfWords = sentenceObj["words"] = []
 
             attLength = 4563
+
             block = docArray[item].split('\n')
             twoDArr = []
             for (indsentence in block) { //for each line in the current block
