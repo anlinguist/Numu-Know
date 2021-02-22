@@ -672,6 +672,17 @@ document.getElementById('exit-panel').addEventListener('click', function() {
 
 //convert ’ to '
 
+async function getTranslationLine(configItems) {
+    res = false
+    for (citem in configItems) {
+        console.log(configItems[citem])
+        if (configItems[citem].startsWith("translation")) {
+            res = citem
+        }
+    }
+    return res
+}
+
 
 function init(){
     showLabel = document.createElement('label')
@@ -691,22 +702,18 @@ function init(){
   async function handleFileLoad(event){
       nameOfDocument = document.getElementById('fileInput').value.split(/(\\|\/)/g).pop().replace(".txt", "")
     //first, validate
-    docArray = event.target.result.split('\n\n')
+    docString = event.target.result.replace(/\r/g, "")
+    console.log(docString)
+    docArray = docString.split(/\n\s*\n/)
     docConfiguration = docArray.splice(0,1)
 
     configItems = docConfiguration[0].split('\n')
     configItemsLength = configItems.length
     sentences = []
     validated = true
-    for (citem in configItems) {
-        if (configItems[citem] == "translation") {
-            translationLine = citem
-        }
-        else {
-            translationLine = false
-        }
-    }
-    
+
+    translationLine = await getTranslationLine(configItems)
+
     for (item in docArray) { //for block of text
         if (validated) {
             sentenceObj = {}
@@ -731,6 +738,10 @@ function init(){
                             validated = true
                         }
                         else {
+                            console.log(item)
+                            console.log(block)
+                            console.log(indsentence)
+                            console.log(block[indsentence])
                                 validated = false
                         }
                         twoDArr.push(words)
@@ -749,8 +760,8 @@ if (validated) {
                 for (value in currentVArray) {
                     foundPunctuation = currentVArray[value].match(punctuationRegex)
                     individualWordObj[configItems[value]] = currentVArray[value]
-                    
                 }
+                console.log(individualWordObj)
                 if (individualWordObj['word'].includes("“")) {
                     punctObj = {}
                     individualWordObj['word'] = individualWordObj['word'].replace("“", "")
