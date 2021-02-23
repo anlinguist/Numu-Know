@@ -381,7 +381,13 @@ async function populateMain(fullobject, docName, currentUser) {
 
     document.getElementById("downloadDocument").addEventListener("click", function() {
         var filename = docName + ".txt"
+        console.log(fullobject)
+       if ('words' in fullobject['data'][0]) {
         firstItem = fullobject['data'][0]['words'][0]
+       }
+       else if ('words' in fullobject['data'][1]) {
+        firstItem = fullobject['data'][1]['words'][0]
+       }
         firstBlock = "word\n"
         configArray = ['word']
         for (att in firstItem) {
@@ -390,9 +396,17 @@ async function populateMain(fullobject, docName, currentUser) {
                 configArray.push(att)
             }
         }
-        if ('translation' in fullobject['data'][0]) {
-            firstBlock = firstBlock + "translation" + "\n"
-            configArray.push('translation')
+        if ('words' in fullobject['data'][0]) {
+            if ('translation' in fullobject['data'][0]) {
+                firstBlock = firstBlock + "translation" + "\n"
+                configArray.push('translation')
+            }
+        }
+        else if ('words' in fullobject['data'][1]) {
+            if ('translation' in fullobject['data'][1]) {
+                firstBlock = firstBlock + "translation" + "\n"
+                configArray.push('translation')
+            }
         }
 
         text = firstBlock
@@ -401,6 +415,10 @@ async function populateMain(fullobject, docName, currentUser) {
         for (individualSentence in fullobject['data']) {
             blockoflines = ""
 
+            if ('block' in fullobject['data'][individualSentence]) {
+            blockoflines = fullobject['data'][individualSentence]['block'] + "\n"
+        }
+            else {
             for (configAttribute in configArray) {
                 line = ""
                 if (configArray[configAttribute] !== "translation") {
@@ -422,6 +440,7 @@ async function populateMain(fullobject, docName, currentUser) {
                 line = line.replace(/undefined/g, "...").replace(/^ /g, "")
                 blockoflines = blockoflines + line
             }
+        }
             documentText = documentText + "\n" + blockoflines
         }
         
