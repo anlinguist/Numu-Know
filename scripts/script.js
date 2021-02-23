@@ -333,6 +333,20 @@ function clickedWord(fullobject, docName, sentenceNum, wordNum, wordObj, current
 
 }
 
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+  }
+
+
 
 varSelected = ""
 async function populateMain(fullobject, docName, currentUser) {
@@ -352,6 +366,70 @@ async function populateMain(fullobject, docName, currentUser) {
     doctitle.setAttribute("id", "doctitle")
     document.getElementById("titleDiv").append(doctitle)
     doctitle.append(docName)
+
+    docDownload = document.createElement("button")
+    doctitle.append(docDownload)
+    docDownload.setAttribute("class", "btn")
+    docDownload.setAttribute("id", "downloadDocument")
+    
+    docDownloadIcon = document.createElement("i")
+    docDownload.append(docDownloadIcon)
+    docDownloadIcon.setAttribute("class", "fa fa-download")
+
+    docDownloadIcon.append(" Download")
+
+
+    document.getElementById("downloadDocument").addEventListener("click", function() {
+        var filename = docName + ".txt"
+        firstItem = fullobject['data'][0]['words'][0]
+        firstBlock = "word\n"
+        configArray = ['word']
+        for (att in firstItem) {
+            if (att !== "word") {
+                firstBlock = firstBlock + att + "\n"
+                configArray.push(att)
+            }
+        }
+        if ('translation' in fullobject['data'][0]) {
+            firstBlock = firstBlock + "translation" + "\n"
+            configArray.push('translation')
+        }
+
+        text = firstBlock
+        documentText = firstBlock
+
+        for (individualSentence in fullobject['data']) {
+            blockoflines = ""
+
+            for (configAttribute in configArray) {
+                line = ""
+                if (configArray[configAttribute] !== "translation") {
+                    for (wordinlist in fullobject['data'][individualSentence]['words']) {
+                        if (fullobject['data'][individualSentence]['words'][wordinlist][configArray[configAttribute]] === undefined && "punctuation" in fullobject['data'][individualSentence]['words'][wordinlist]) {
+                            if (configArray[configAttribute] === "word") {
+                                line = line + fullobject['data'][individualSentence]['words'][wordinlist]['punctuation']
+                            }
+                        }
+                        else {
+                            line = line + " " + fullobject['data'][individualSentence]['words'][wordinlist][configArray[configAttribute]]
+                        }
+                    }
+                }
+                else {
+                    line = fullobject['data'][individualSentence]['translation']
+                }
+                line = line + "\n"
+                line = line.replace(/undefined/g, "...").replace(/^ /g, "")
+                blockoflines = blockoflines + line
+            }
+            documentText = documentText + "\n" + blockoflines
+        }
+        
+        download(filename, documentText)
+
+
+    }, false)
+
     // if () {
 
     // }

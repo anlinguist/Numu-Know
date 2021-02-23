@@ -514,6 +514,9 @@ i {
     border:none;
     border-radius: 6px;
 }
+::-webkit-scrollbar {
+    display: none;
+}
 .custom-options {
     position: absolute;
     display: block;
@@ -638,3 +641,16 @@ input[type="file"] {
     border-radius: 6px;
     padding: 10px;
 }
+#downloadDocument {
+    margin-left: 15px;
+    background-color: white;
+    border: 2px solid gray;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#downloadDocument:focus {
+    outline: none !important;
+  }
