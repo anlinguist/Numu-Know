@@ -424,7 +424,7 @@ async function populateMain(fullobject, docName, currentUser) {
                 if (configArray[configAttribute] !== "translation") {
                     for (wordinlist in fullobject['data'][individualSentence]['words']) {
                         if (fullobject['data'][individualSentence]['words'][wordinlist][configArray[configAttribute]] === undefined && "punctuation" in fullobject['data'][individualSentence]['words'][wordinlist]) {
-                            if (configArray[configAttribute] === "word") {
+                            if (configArray[configAttribute] === "word" || configArray[configAttribute].startsWith("variant-")) {
                                 line = line + fullobject['data'][individualSentence]['words'][wordinlist]['punctuation']
                             }
                         }
