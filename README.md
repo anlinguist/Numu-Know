@@ -1,3 +1,3 @@
 # Numu-Know
 
-[See Numu-Know here](https://anlinguist.github.io/Numu-Know/pages/index.html)!
+[See Numu-Know here](numu-know.com)!

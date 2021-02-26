@@ -741,10 +741,22 @@ function toggleSideBar() {
     }
 }
 
-function startUp(currentUser) {
+async function startUp(currentUser) {
     removeAllChildNodes(document.getElementById('upload-container'))
     if (currentUser != "") {
-        init()
+        let postInfo = {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'uid': currentUser
+            }
+          }
+    
+        userstatus = await fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/testadmin', postInfo).then(response => response.text())
+        .then(function(data){ return data})
+        if (userstatus === "isAdmin") {
+            init()
+        }
     }
     fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/read')
   .then(response => response.json())
