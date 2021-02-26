@@ -367,87 +367,101 @@ async function populateMain(fullobject, docName, currentUser) {
     document.getElementById("titleDiv").append(doctitle)
     doctitle.append(docName)
 
-    docDownload = document.createElement("button")
-    doctitle.append(docDownload)
-    docDownload.setAttribute("class", "btn")
-    docDownload.setAttribute("id", "downloadDocument")
-    
-    docDownloadIcon = document.createElement("i")
-    docDownload.append(docDownloadIcon)
-    docDownloadIcon.setAttribute("class", "fa fa-download")
 
-    docDownloadIcon.append(" Download")
-
-
-    document.getElementById("downloadDocument").addEventListener("click", function() {
-        var filename = docName + ".txt"
-        console.log(fullobject)
-       if ('words' in fullobject['data'][0]) {
-        firstItem = fullobject['data'][0]['words'][0]
-       }
-       else if ('words' in fullobject['data'][1]) {
-        firstItem = fullobject['data'][1]['words'][0]
-       }
-        firstBlock = "word\n"
-        configArray = ['word']
-        for (att in firstItem) {
-            if (att !== "word") {
-                firstBlock = firstBlock + att + "\n"
-                configArray.push(att)
-            }
+    let testAdminInfo = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'uid': currentUser
         }
+      }
+
+    adminstatus = await fetch('https://us-central1-numu-know.cloudfunctions.net/app/api/testadmin', testAdminInfo).then(response => response.text())
+    .then(function(data){ return data})
+    if (adminstatus === "isAdmin") {
+        docDownload = document.createElement("button")
+        doctitle.append(docDownload)
+        docDownload.setAttribute("class", "btn")
+        docDownload.setAttribute("id", "downloadDocument")
+        
+        docDownloadIcon = document.createElement("i")
+        docDownload.append(docDownloadIcon)
+        docDownloadIcon.setAttribute("class", "fa fa-download")
+
+        docDownloadIcon.append(" Download")
+
+
+        document.getElementById("downloadDocument").addEventListener("click", function() {
+            var filename = docName + ".txt"
+            console.log(fullobject)
         if ('words' in fullobject['data'][0]) {
-            if ('translation' in fullobject['data'][0]) {
-                firstBlock = firstBlock + "translation" + "\n"
-                configArray.push('translation')
-            }
+            firstItem = fullobject['data'][0]['words'][0]
         }
         else if ('words' in fullobject['data'][1]) {
-            if ('translation' in fullobject['data'][1]) {
-                firstBlock = firstBlock + "translation" + "\n"
-                configArray.push('translation')
+            firstItem = fullobject['data'][1]['words'][0]
+        }
+            firstBlock = "word\n"
+            configArray = ['word']
+            for (att in firstItem) {
+                if (att !== "word") {
+                    firstBlock = firstBlock + att + "\n"
+                    configArray.push(att)
+                }
             }
-        }
+            if ('words' in fullobject['data'][0]) {
+                if ('translation' in fullobject['data'][0]) {
+                    firstBlock = firstBlock + "translation" + "\n"
+                    configArray.push('translation')
+                }
+            }
+            else if ('words' in fullobject['data'][1]) {
+                if ('translation' in fullobject['data'][1]) {
+                    firstBlock = firstBlock + "translation" + "\n"
+                    configArray.push('translation')
+                }
+            }
 
-        text = firstBlock
-        documentText = firstBlock
+            text = firstBlock
+            documentText = firstBlock
 
-        for (individualSentence in fullobject['data']) {
-            blockoflines = ""
+            for (individualSentence in fullobject['data']) {
+                blockoflines = ""
 
-            if ('block' in fullobject['data'][individualSentence]) {
-            blockoflines = fullobject['data'][individualSentence]['block'] + "\n"
-        }
-            else {
-            for (configAttribute in configArray) {
-                line = ""
-                if (configArray[configAttribute] !== "translation") {
-                    for (wordinlist in fullobject['data'][individualSentence]['words']) {
-                        if (fullobject['data'][individualSentence]['words'][wordinlist][configArray[configAttribute]] === undefined && "punctuation" in fullobject['data'][individualSentence]['words'][wordinlist]) {
-                            if (configArray[configAttribute] === "word" || configArray[configAttribute].startsWith("variant-")) {
-                                line = line + fullobject['data'][individualSentence]['words'][wordinlist]['punctuation']
+                if ('block' in fullobject['data'][individualSentence]) {
+                blockoflines = fullobject['data'][individualSentence]['block'] + "\n"
+            }
+                else {
+                for (configAttribute in configArray) {
+                    line = ""
+                    if (configArray[configAttribute] !== "translation") {
+                        for (wordinlist in fullobject['data'][individualSentence]['words']) {
+                            if (fullobject['data'][individualSentence]['words'][wordinlist][configArray[configAttribute]] === undefined && "punctuation" in fullobject['data'][individualSentence]['words'][wordinlist]) {
+                                if (configArray[configAttribute] === "word" || configArray[configAttribute].startsWith("variant-")) {
+                                    line = line + fullobject['data'][individualSentence]['words'][wordinlist]['punctuation']
+                                }
+                            }
+                            else {
+                                line = line + " " + fullobject['data'][individualSentence]['words'][wordinlist][configArray[configAttribute]]
                             }
                         }
-                        else {
-                            line = line + " " + fullobject['data'][individualSentence]['words'][wordinlist][configArray[configAttribute]]
-                        }
                     }
+                    else {
+                        line = fullobject['data'][individualSentence]['translation']
+                    }
+                    line = line + "\n"
+                    line = line.replace(/undefined/g, "...").replace(/^ /g, "")
+                    blockoflines = blockoflines + line
                 }
-                else {
-                    line = fullobject['data'][individualSentence]['translation']
-                }
-                line = line + "\n"
-                line = line.replace(/undefined/g, "...").replace(/^ /g, "")
-                blockoflines = blockoflines + line
             }
-        }
-            documentText = documentText + "\n" + blockoflines
-        }
-        
-        download(filename, documentText)
+                documentText = documentText + "\n" + blockoflines
+            }
+            
+            download(filename, documentText)
 
 
-    }, false)
+        }, false)
+    }
+
 
     // if () {
 
